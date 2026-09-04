@@ -1,0 +1,1 @@
+Correção em andamento: GPS com pré-teste de permissão, fallback de localização e redesign premium do card final.
