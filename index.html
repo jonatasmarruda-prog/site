@@ -3,26 +3,28 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#08181d" />
+  <meta name="theme-color" content="#071b18" />
   <meta name="color-scheme" content="dark" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Trilheiros GPS" />
   <meta name="description" content="Trilheiros GPS — registre sua trilha offline e gere uma arte premium para compartilhar." />
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
-  <link rel="icon" href="assets/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/jonatasmarruda-prog/site/main/assets/logo-trilheiros.png" />
+  <link rel="icon" href="https://raw.githubusercontent.com/jonatasmarruda-prog/site/main/assets/logo-trilheiros.png" />
   <link rel="stylesheet" href="app.css" />
   <title>Trilheiros GPS</title>
 </head>
 <body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
   <div class="app-shell">
     <header class="topbar">
-      <div class="brand">
-        <img src="assets/logo-trilheiros.png" alt="Logo oficial Trilheiros de Rondonópolis" class="brand-logo" />
+      <div class="brand-mini">
+        <img src="https://raw.githubusercontent.com/jonatasmarruda-prog/site/main/assets/logo-trilheiros.png" alt="Logo oficial Trilheiros de Rondonópolis" class="brand-logo-mini" />
         <div>
           <p class="eyebrow">TRILHEIROS DE RONDONÓPOLIS</p>
-          <h1>TRILHEIROS GPS</h1>
+          <strong>GPS ADVENTURE</strong>
         </div>
       </div>
       <div id="networkBadge" class="badge online">● Online</div>
@@ -31,95 +33,106 @@
     <main>
       <section id="homeView" class="view active">
         <div class="hero-card">
-          <div class="hero-glow"></div>
-          <p class="eyebrow gold">SUA AVENTURA, REGISTRADA</p>
-          <h2>Começou a trilha?<br><span>É só tocar e caminhar.</span></h2>
-          <p class="hero-copy">O GPS registra distância, tempo e percurso. No final, você gera uma arte premium pronta para postar.</p>
+          <div class="hero-logo-wrap">
+            <div class="hero-ring"></div>
+            <img src="https://raw.githubusercontent.com/jonatasmarruda-prog/site/main/assets/logo-trilheiros.png" alt="Trilheiros de Rondonópolis" class="hero-logo" />
+          </div>
+          <div class="status-strip"><span>🛰️ GPS OFFLINE</span><i></i><span>PRONTO PARA AVENTURA</span></div>
+          <p class="eyebrow gold center">TRILHEIROS GPS</p>
+          <h1 class="hero-title">Sua trilha.<br><span>Seus quilômetros.</span><br>Sua conquista.</h1>
+          <p class="hero-copy">Registre o percurso pelo GPS do celular, mesmo sem internet. No final, transforme sua aventura em uma arte pronta para compartilhar.</p>
 
-          <label class="field-label" for="trailName">Nome da trilha ou destino</label>
-          <input id="trailName" class="premium-input" type="text" maxlength="60" placeholder="Ex.: Morro da Mesa" autocomplete="off" />
+          <div class="start-panel">
+            <label class="field-label" for="trailName">QUAL É A AVENTURA DE HOJE?</label>
+            <div class="input-wrap">
+              <span>📍</span>
+              <input id="trailName" class="premium-input" type="text" maxlength="60" placeholder="Ex.: Morro da Mesa" autocomplete="off" />
+            </div>
 
-          <button id="startBtn" class="primary-btn huge-btn">
-            <span class="btn-icon">🥾</span>
-            <span><strong>INICIAR TRILHA</strong><small>GPS offline</small></span>
-          </button>
+            <button id="startBtn" class="primary-btn huge-btn">
+              <span class="start-icon">🥾</span>
+              <span class="btn-copy"><strong>INICIAR TRILHA</strong><small>Toque, permita o GPS e comece a caminhar</small></span>
+              <span class="btn-arrow">›</span>
+            </button>
+          </div>
 
           <div class="quick-grid">
-            <div class="quick-card"><span>🛰️</span><strong>GPS</strong><small>Sem internet</small></div>
-            <div class="quick-card"><span>💾</span><strong>Offline</strong><small>Salva no celular</small></div>
-            <div class="quick-card"><span>📸</span><strong>Arte</strong><small>Pronta para postar</small></div>
+            <div class="quick-card"><span class="quick-icon">🛰️</span><strong>GPS REAL</strong><small>Funciona sem sinal</small></div>
+            <div class="quick-card"><span class="quick-icon">💾</span><strong>OFFLINE</strong><small>Salva no aparelho</small></div>
+            <div class="quick-card"><span class="quick-icon">🏆</span><strong>CONQUISTA</strong><small>Arte no final</small></div>
           </div>
         </div>
 
         <button id="installBtn" class="install-card hidden">
           <div class="install-icon">📲</div>
-          <div><strong>Instalar Trilheiros GPS</strong><span>Deixe como aplicativo na tela do celular</span></div>
+          <div><strong>Instalar no celular</strong><span>Deixe o Trilheiros GPS na sua tela inicial</span></div>
           <div class="install-arrow">›</div>
         </button>
 
         <div id="iosInstallHelp" class="info-card hidden">
-          <strong>📱 No iPhone</strong>
-          <span>Toque em <b>Compartilhar</b> no Safari e depois em <b>Adicionar à Tela de Início</b>.</span>
+          <strong>📱 Instalar no iPhone</strong>
+          <span>No Safari, toque em <b>Compartilhar</b> e depois em <b>Adicionar à Tela de Início</b>.</span>
         </div>
 
         <div class="section-head">
-          <div><p class="eyebrow">HISTÓRICO</p><h3>Minhas trilhas</h3></div>
+          <div><p class="eyebrow gold">MINHAS AVENTURAS</p><h3>Histórico de trilhas</h3></div>
           <span id="historyCount" class="pill">0 trilhas</span>
         </div>
         <div id="historyList" class="history-list"></div>
       </section>
 
       <section id="trackView" class="view">
-        <div class="tracking-top">
-          <div>
-            <p class="eyebrow gold">TRILHA EM ANDAMENTO</p>
-            <h2 id="trackingTrailName">Minha Trilha</h2>
-          </div>
+        <div class="tracking-head-card">
+          <div class="tracking-logo"><img src="https://raw.githubusercontent.com/jonatasmarruda-prog/site/main/assets/logo-trilheiros.png" alt="Logo" /></div>
+          <div class="tracking-title"><p class="eyebrow gold">TRILHA EM ANDAMENTO</p><h2 id="trackingTrailName">Minha Trilha</h2></div>
           <div id="gpsBadge" class="badge gps-search">GPS...</div>
         </div>
 
         <div class="distance-card">
-          <span>QUILÔMETROS</span>
-          <strong id="distanceValue">0,00</strong>
-          <small>KM</small>
+          <div class="distance-orbit"></div>
+          <span class="distance-label">DISTÂNCIA PERCORRIDA</span>
+          <div class="distance-number"><strong id="distanceValue">0,00</strong><small>KM</small></div>
+          <div class="live-dot"><i></i> REGISTRANDO</div>
         </div>
 
         <div class="stats-grid">
-          <div class="stat"><span>⏱️ Tempo</span><strong id="timeValue">00:00:00</strong></div>
-          <div class="stat"><span>⚡ Média</span><strong id="avgValue">0,0 km/h</strong></div>
-          <div class="stat"><span>🚶 Agora</span><strong id="speedValue">0,0 km/h</strong></div>
-          <div class="stat"><span>⛰️ Elevação</span><strong id="elevationValue">+0 m</strong></div>
+          <div class="stat"><span>⏱️ TEMPO</span><strong id="timeValue">00:00:00</strong></div>
+          <div class="stat"><span>⚡ MÉDIA</span><strong id="avgValue">0,0 km/h</strong></div>
+          <div class="stat"><span>🚶 AGORA</span><strong id="speedValue">0,0 km/h</strong></div>
+          <div class="stat"><span>⛰️ ELEVAÇÃO</span><strong id="elevationValue">+0 m</strong></div>
         </div>
 
         <div class="track-card">
-          <div class="track-card-head"><strong>Seu percurso</strong><span id="accuracyValue">Precisão: --</span></div>
+          <div class="track-card-head"><div><span class="map-kicker">PERCURSO GPS</span><strong>Seu caminho</strong></div><span id="accuracyValue">Precisão: --</span></div>
           <canvas id="trackCanvas" width="900" height="540"></canvas>
-          <div id="waitingGps" class="track-empty">🛰️ Buscando sinal GPS...</div>
+          <div id="waitingGps" class="track-empty"><div class="satellite-pulse">🛰️</div><strong>Buscando satélites...</strong><span>Fique alguns segundos em área aberta</span></div>
         </div>
 
         <div class="tracking-actions">
           <button id="pauseBtn" class="secondary-btn">⏸️ PAUSAR</button>
           <button id="finishBtn" class="danger-btn">🏁 FINALIZAR</button>
         </div>
-
-        <div class="safety-note">💡 Para registrar melhor, mantenha este app aberto. A tela será mantida ativa quando o navegador permitir.</div>
+        <div class="safety-note">Mantenha o aplicativo aberto durante o percurso para maior precisão no modo web.</div>
       </section>
 
       <section id="summaryView" class="view">
-        <div class="success-mark">✓</div>
-        <p class="eyebrow gold center">TRILHA CONCLUÍDA</p>
-        <h2 id="summaryTrailName" class="summary-title">Minha Trilha</h2>
-        <div class="summary-distance"><strong id="summaryDistance">0,00</strong><span>KM</span></div>
+        <div class="finish-hero">
+          <div class="success-mark">✓</div>
+          <p class="eyebrow gold center">AVENTURA CONCLUÍDA</p>
+          <h2 id="summaryTrailName" class="summary-title">Minha Trilha</h2>
+          <div class="summary-distance"><strong id="summaryDistance">0,00</strong><span>KM</span></div>
+          <div class="finish-line"><span></span><b>TRILHEIROS DE RONDONÓPOLIS</b><span></span></div>
+        </div>
 
         <div class="summary-stats">
-          <div><span>⏱️ Tempo</span><strong id="summaryTime">00:00:00</strong></div>
-          <div><span>⚡ Média</span><strong id="summaryAvg">0,0 km/h</strong></div>
-          <div><span>⛰️ Elevação</span><strong id="summaryElevation">+0 m</strong></div>
-          <div><span>📍 Pontos GPS</span><strong id="summaryPoints">0</strong></div>
+          <div><span>⏱️ TEMPO</span><strong id="summaryTime">00:00:00</strong></div>
+          <div><span>⚡ MÉDIA</span><strong id="summaryAvg">0,0 km/h</strong></div>
+          <div><span>⛰️ ELEVAÇÃO</span><strong id="summaryElevation">+0 m</strong></div>
+          <div><span>📍 PONTOS GPS</span><strong id="summaryPoints">0</strong></div>
         </div>
 
         <div class="photo-card">
-          <div><strong>📸 Crie sua arte premium</strong><span>Escolha uma foto da aventura</span></div>
+          <div class="photo-title"><div class="photo-icon">📸</div><div><strong>Crie seu card de conquista</strong><span>Escolha uma foto da trilha</span></div></div>
           <label class="photo-button" for="photoInput">ESCOLHER FOTO</label>
           <input id="photoInput" type="file" accept="image/*" hidden />
           <img id="photoPreview" class="photo-preview hidden" alt="Foto escolhida" />
@@ -136,8 +149,7 @@
       </section>
 
       <section id="artView" class="view">
-        <p class="eyebrow gold center">PRONTA PARA POSTAR</p>
-        <h2 class="center">Sua conquista ficou registrada.</h2>
+        <div class="art-head"><p class="eyebrow gold center">SUA CONQUISTA</p><h2 class="center">Pronta para compartilhar.</h2><p>Seu resultado com a identidade dos Trilheiros.</p></div>
         <div class="art-preview-wrap"><canvas id="artCanvas" width="1080" height="1920"></canvas></div>
         <button id="shareBtn" class="primary-btn huge-btn">📲 COMPARTILHAR</button>
         <button id="downloadBtn" class="secondary-btn full-btn">⬇️ SALVAR IMAGEM</button>
@@ -145,11 +157,9 @@
       </section>
     </main>
 
-    <footer>Trilheiros de Rondonópolis • GPS offline • feito para aventura</footer>
+    <footer><img src="https://raw.githubusercontent.com/jonatasmarruda-prog/site/main/assets/logo-trilheiros.png" alt="Logo" /><span>TRILHEIROS DE RONDONÓPOLIS<br><small>A aventura te chama.</small></span></footer>
   </div>
-
   <div id="toast" class="toast"></div>
-
   <script src="app.js" defer></script>
 </body>
 </html>
