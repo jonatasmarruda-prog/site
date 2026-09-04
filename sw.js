@@ -1,8 +1,5 @@
-const CACHE='trilheiros-gps-v16.0.0';
-const EXT_LOGO='https://cdn.jsdelivr.net/gh/jonatasmarruda-prog/site@21e27151f53af21aae93779cc865a264416b0f08/logo-data.js';
-const EXT_LOGOFIX='https://cdn.jsdelivr.net/gh/jonatasmarruda-prog/site@21e27151f53af21aae93779cc865a264416b0f08/v15-logo-force.js';
-const EXT_PROFILE='https://cdn.jsdelivr.net/gh/jonatasmarruda-prog/site@21e27151f53af21aae93779cc865a264416b0f08/v16-profile-history.js';
-const ASSETS=['./','index.html','app.css?v=16','app.js?v=16','v10.js?v=16','artfix-v10.js?v=16','v13-fix.js?v=16','manifest.webmanifest?v=16','assets/icons/icon-192.png','assets/icons/icon-512.png','assets/icons/apple-touch-icon.png',EXT_LOGO,EXT_LOGOFIX,EXT_PROFILE];
+const CACHE='trilheiros-gps-v18.0.0';
+const ASSETS=['./','index.html','app.css?v=18','app.js?v=18','v10.js?v=18','artfix-v10.js?v=18','v13-fix.js?v=18','logo-inline-v17.js?v=18','v15-logo-force.js?v=18','v16-profile-history.js?v=18','v18-welcome-logo-style.js?v=18','manifest.webmanifest?v=18','assets/icons/icon-192.png','assets/icons/icon-512.png','assets/icons/apple-touch-icon.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(async c=>{for(const a of ASSETS){try{await c.add(a)}catch(_){}}}).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).then(resp=>{const copy=resp.clone();caches.open(CACHE).then(c=>c.put(e.request,copy)).catch(()=>{});return resp}).catch(()=>caches.match(e.request).then(r=>r||(new URL(e.request.url).origin===self.location.origin?caches.match('./'):Promise.reject()))))});
