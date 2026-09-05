@@ -10,10 +10,10 @@
   <meta name="apple-mobile-web-app-title" content="Trilheiros GPS" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="description" content="Trilheiros GPS — registre sua trilha offline e gere um card premium para compartilhar." />
-  <link rel="manifest" href="manifest.webmanifest?v=21" />
+  <link rel="manifest" href="manifest.webmanifest?v=22" />
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
   <link rel="icon" href="assets/icons/icon-192.png" />
-  <link rel="stylesheet" href="app.css?v=21" />
+  <link rel="stylesheet" href="app.css?v=22" />
   <title>Trilheiros GPS</title>
 </head>
 <body>
@@ -22,7 +22,6 @@
   <div class="app-shell">
     <header class="topbar">
       <div class="brand-mini">
-        <img alt="Logo oficial Trilheiros de Rondonópolis" class="brand-logo-mini" />
         <div><p class="eyebrow">TRILHEIROS DE RONDONÓPOLIS</p><strong>TRILHEIROS GPS</strong></div>
       </div>
       <div id="networkBadge" class="badge online">● Online</div>
@@ -31,7 +30,6 @@
     <main>
       <section id="homeView" class="view active">
         <div class="hero-card">
-          <div class="hero-logo-wrap"><div class="hero-ring"></div><img alt="Trilheiros de Rondonópolis" class="hero-logo" /></div>
           <div class="status-strip"><span>🛰️ GPS OFFLINE</span><i></i><span>PRONTO PARA AVENTURA</span></div>
           <p class="eyebrow gold center">TRILHEIROS GPS</p>
           <h1 class="hero-title">Pra onde vamos<br><span>hoje?</span></h1>
@@ -51,7 +49,7 @@
       </section>
 
       <section id="trackView" class="view">
-        <div class="tracking-head-card"><div class="tracking-logo"><img alt="Logo" /></div><div class="tracking-title"><p class="eyebrow gold">TRILHA EM ANDAMENTO</p><h2 id="trackingTrailName">Minha Trilha</h2></div><div id="gpsBadge" class="badge gps-search">GPS...</div></div>
+        <div class="tracking-head-card"><div class="tracking-title"><p class="eyebrow gold">TRILHA EM ANDAMENTO</p><h2 id="trackingTrailName">Minha Trilha</h2></div><div id="gpsBadge" class="badge gps-search">GPS...</div></div>
         <div class="distance-card"><div class="distance-orbit"></div><span class="distance-label">DISTÂNCIA PERCORRIDA</span><div class="distance-number"><strong id="distanceValue">0,00</strong><small>KM</small></div><div class="live-dot"><i></i> REGISTRANDO</div></div>
         <div class="stats-grid"><div class="stat"><span>⏱️ TEMPO</span><strong id="timeValue">00:00:00</strong></div><div class="stat"><span>⚡ MÉDIA</span><strong id="avgValue">0,0 km/h</strong></div><div class="stat"><span>🚶 AGORA</span><strong id="speedValue">0,0 km/h</strong></div><div class="stat"><span>⛰️ ELEVAÇÃO</span><strong id="elevationValue">+0 m</strong></div></div>
         <div class="track-card"><div class="track-card-head"><div><span class="map-kicker">PERCURSO GPS</span><strong>Seu caminho</strong></div><span id="accuracyValue">Precisão: --</span></div><canvas id="trackCanvas" width="900" height="540"></canvas><div id="waitingGps" class="track-empty"><div class="satellite-pulse">🛰️</div><strong>Confirmando GPS...</strong><span>Mantenha a localização precisa ativada</span></div></div>
@@ -70,19 +68,15 @@
       <section id="artView" class="view"><div class="art-head"><p class="eyebrow gold center">FINISHER OFICIAL</p><h2 class="center">Pronta para compartilhar.</h2><p>Seu resultado com a identidade dos Trilheiros.</p></div><div class="art-preview-wrap"><canvas id="artCanvas" width="1080" height="1920"></canvas></div><button id="shareBtn" class="primary-btn huge-btn">📲 COMPARTILHAR</button><button id="downloadBtn" class="secondary-btn full-btn">⬇️ SALVAR IMAGEM</button><button id="backSummaryBtn" class="text-btn">← Escolher outra foto ou formato</button></section>
     </main>
 
-    <footer><img alt="Logo" /><span>TRILHEIROS DE RONDONÓPOLIS<br><small>A aventura te chama.</small></span></footer>
+    <footer><span>TRILHEIROS DE RONDONÓPOLIS<br><small>A aventura te chama.</small></span></footer>
   </div>
   <div id="toast" class="toast"></div>
 
-  <script src="logo-inline-v17.js?v=21"></script>
-  <script src="logo-hq-01.js?v=21"></script><script src="logo-hq-02.js?v=21"></script><script src="logo-hq-03.js?v=21"></script><script src="logo-hq-04.js?v=21"></script><script src="logo-hq-05.js?v=21"></script><script src="logo-hq-06.js?v=21"></script><script src="logo-hq-07.js?v=21"></script><script src="logo-hq-08.js?v=21"></script><script src="logo-hq-09.js?v=21"></script><script src="logo-hq-10.js?v=21"></script>
-  <script src="app.js?v=21" defer></script>
-  <script src="v10.js?v=21" defer></script>
-  <script src="artfix-v10.js?v=21" defer></script>
-  <script src="v13-fix.js?v=21" defer></script>
-  <script src="v15-logo-force.js?v=21" defer></script>
-  <script src="v16-profile-history.js?v=21" defer></script>
-  <script src="v19-final-ui-fix.js?v=21" defer></script>
-  <script src="logo-hq-force-v21.js?v=21" defer></script>
+  <script src="app.js?v=22" defer></script>
+  <script src="v10.js?v=22" defer></script>
+  <script src="artfix-v10.js?v=22" defer></script>
+  <script src="v13-fix.js?v=22" defer></script>
+  <script src="v16-profile-history.js?v=22" defer></script>
+  <script src="v19-final-ui-fix.js?v=22" defer></script>
 </body>
 </html>
