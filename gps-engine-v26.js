@@ -32,7 +32,9 @@
       this.stationarySince=0;
     }
     reset(point=null){
-      this.recent=[];this.lastFiltered=point?{...point}:null;this.lastAccepted=point?{...point}:null;
+      this.recent=[];
+      this.lastFiltered=point?{...point}:null;
+      this.lastAccepted=point?{...point}:null;
       this.smoothKmh=0;this.lastMotionAt=0;this.stationarySince=0;
     }
     _filter(sample){
@@ -49,38 +51,67 @@
     process(sample){
       if(!sample||!Number.isFinite(sample.lat)||!Number.isFinite(sample.lon))return {accepted:false,reason:'invalid',distanceDelta:0,speedKmh:this.smoothKmh};
       const now=sample.time||Date.now(),acc=Number.isFinite(sample.acc)?sample.acc:999;
-      if(acc>this.maxAccuracy){if(this.lastMotionAt&&now-this.lastMotionAt>5000)this.smoothKmh*=0.55;if(this.smoothKmh<0.35)this.smoothKmh=0;return {accepted:false,reason:'weak',distanceDelta:0,speedKmh:this.smoothKmh};}
+      if(acc>this.maxAccuracy){
+        if(this.lastMotionAt&&now-this.lastMotionAt>5000)this.smoothKmh*=0.55;
+        if(this.smoothKmh<0.35)this.smoothKmh=0;
+        return {accepted:false,reason:'weak',distanceDelta:0,speedKmh:this.smoothKmh};
+      }
 
       const f=this._filter({...sample,acc,time:now});
       if(!this.lastFiltered){this.lastFiltered={...f};this.lastAccepted={...f};return {accepted:false,reason:'initial',distanceDelta:0,speedKmh:0,point:f};}
 
-      const prevF=this.lastFiltered,dt=Math.max(0.5,(f.time-prevF.time)/1000),step=hav(prevF,f),calcKmh=step/dt*3.6;
+      const prevF=this.lastFiltered;
+      const anchor=this.lastAccepted||prevF;
+      const dt=Math.max(0.5,(f.time-prevF.time)/1000);
+      const step=hav(prevF,f);
+      const calcKmh=step/dt*3.6;
+      const anchorDt=Math.max(0.5,(f.time-anchor.time)/1000);
+      const anchorSeg=hav(anchor,f);
+      const anchorKmh=anchorSeg/anchorDt*3.6;
+      const prevAnchorSeg=hav(anchor,prevF);
       const rawKmh=Number.isFinite(sample.speed)?sample.speed*3.6:null;
       const rawPlausible=rawKmh!==null&&rawKmh>=0&&rawKmh<=this.maxKmh?rawKmh:null;
       const calcPlausible=calcKmh>=0&&calcKmh<=this.maxKmh?calcKmh:null;
-      let live=0;
-      if(rawPlausible!==null&&calcPlausible!==null)live=Math.abs(rawPlausible-calcPlausible)<=8?rawPlausible*0.55+calcPlausible*0.45:calcPlausible;
-      else if(calcPlausible!==null&&step>=1.2)live=calcPlausible;
-      else if(rawPlausible!==null)live=rawPlausible;
+      const anchorPlausible=anchorKmh>=0&&anchorKmh<=this.maxKmh?anchorKmh:null;
 
-      const avgAcc=((prevF.acc||acc)+(f.acc||acc))/2,threshold=clamp(avgAcc*0.28,2.5,7.5);
-      const rawSaysStopped=rawPlausible!==null&&rawPlausible<0.7&&step<threshold*1.25;
-      const movingEvidence=!rawSaysStopped&&((live>=0.8&&live<=this.maxKmh)||(step>=threshold&&calcPlausible!==null&&calcPlausible>=0.7));
+      let live=0;
+      if(rawPlausible!==null&&rawPlausible>=0.7) live=rawPlausible;
+      else if(calcPlausible!==null&&step>=1) live=calcPlausible;
+      else if(anchorPlausible!==null&&anchorSeg>=2) live=anchorPlausible;
+
+      const avgAcc=((prevF.acc||acc)+(f.acc||acc))/2;
+      const threshold=clamp(avgAcc*0.28,2.5,7.5);
+      const rawSaysStopped=rawPlausible!==null&&rawPlausible<0.55;
+      const progressive=anchorSeg>=prevAnchorSeg-0.8 && step>=0.55;
+      const accumulatedMove=anchorSeg>=threshold && progressive && anchorPlausible!==null && anchorPlausible>=0.6;
+      const movingEvidence=(rawPlausible!==null&&rawPlausible>=0.7)||accumulatedMove;
       this.lastFiltered={...f};
 
       if(!movingEvidence){
         if(!this.stationarySince)this.stationarySince=now;
-        if(rawSaysStopped)this.smoothKmh=0;else if(now-this.stationarySince>3500)this.smoothKmh=0;else this._smooth(live);
-        if(now-this.stationarySince>2500)this.lastAccepted={...f};
-        return {accepted:false,reason:'stationary',distanceDelta:0,speedKmh:this.smoothKmh,threshold,point:f};
+        if(rawSaysStopped){
+          this.smoothKmh=0;
+          if(now-this.stationarySince>3500){this.lastAccepted={...f};this.stationarySince=now;}
+        }else if(now-this.stationarySince>4500){
+          this.smoothKmh=0;
+        }else{
+          this._smooth(live);
+        }
+        return {accepted:false,reason:'stationary',distanceDelta:0,speedKmh:this.smoothKmh,threshold,point:f,anchorDistance:anchorSeg};
       }
 
       this.stationarySince=0;this.lastMotionAt=now;
-      const anchor=this.lastAccepted||prevF,seg=hav(anchor,f),acceptedDt=Math.max(0.5,(f.time-anchor.time)/1000),acceptedKmh=seg/acceptedDt*3.6;
-      if(seg>100||acceptedKmh>this.maxKmh){this.lastAccepted={...f};this.smoothKmh=0;return {accepted:false,reason:'spike',distanceDelta:0,speedKmh:0,point:f};}
+      const seg=anchorSeg;
+      const acceptedKmh=anchorKmh;
+      if(seg>100||acceptedKmh>this.maxKmh){
+        this.smoothKmh=0;
+        return {accepted:false,reason:'spike',distanceDelta:0,speedKmh:0,point:f};
+      }
 
-      const moveThreshold=Math.max(1.8,threshold*0.55);
-      if(seg<moveThreshold)return {accepted:false,reason:'moving-small',distanceDelta:0,speedKmh:this._smooth(live),threshold:moveThreshold,point:f};
+      const moveThreshold=Math.max(2.2,threshold*0.9);
+      if(seg<moveThreshold){
+        return {accepted:false,reason:'moving-small',distanceDelta:0,speedKmh:this._smooth(live||acceptedKmh),threshold:moveThreshold,point:f};
+      }
 
       this.lastAccepted={...f};
       const speedOut=this._smooth(live||acceptedKmh);
