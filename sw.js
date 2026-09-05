@@ -1,5 +1,5 @@
-const CACHE='trilheiros-gps-v24.0.0';
-const ASSETS=['./','index.html','app.css?v=24','v23-remove-circle.css?v=24','app.js?v=24','v10.js?v=24','artfix-v10.js?v=24','v13-fix.js?v=24','v16-profile-history.js?v=24','v19-final-ui-fix.js?v=24','v24-gps-balance.js?v=24','manifest.webmanifest?v=24','assets/icons/icon-192.png','assets/icons/icon-512.png','assets/icons/apple-touch-icon.png'];
+const CACHE='trilheiros-gps-v25.0.0';
+const ASSETS=['./','index.html','app.css?v=25','v23-remove-circle.css?v=25','app.js?v=25','v10.js?v=25','v13-fix.js?v=25','v16-profile-history.js?v=25','v19-final-ui-fix.js?v=25','v25-runtime-stable.js?v=25','manifest.webmanifest?v=25','assets/icons/icon-192.png','assets/icons/icon-512.png','assets/icons/apple-touch-icon.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(async c=>{for(const a of ASSETS){try{await c.add(a)}catch(_){}}}).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).then(resp=>{const copy=resp.clone();caches.open(CACHE).then(c=>c.put(e.request,copy)).catch(()=>{});return resp}).catch(()=>caches.match(e.request).then(r=>r||(new URL(e.request.url).origin===self.location.origin?caches.match('./'):Promise.reject()))))});
