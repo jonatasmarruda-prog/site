@@ -1,78 +1,113 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#071b18" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Trilheiros GPS" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="description" content="Trilheiros GPS — registre sua trilha offline e gere um card premium para compartilhar." />
-  <link rel="manifest" href="manifest.webmanifest?v=26.1" />
-  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
-  <link rel="icon" href="assets/icons/icon-192.png" />
-  <link rel="stylesheet" href="app.css?v=26.1" />
-  <link rel="stylesheet" href="v23-remove-circle.css?v=26.1" />
-  <link rel="stylesheet" href="v26-strava-inspired.css?v=26.1" />
-  <title>Trilheiros GPS</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<meta name="description" content="Trilheiros GPS — registre trilhas offline, acompanhe distância e velocidade e gere seu card finisher.">
+<link rel="manifest" href="/manifest.webmanifest?v=27">
+<link rel="icon" href="/icon.svg">
+<title>Trilheiros GPS</title>
+<style>
+:root{--bg:#0d0d0d;--panel:#171717;--panel2:#202020;--text:#fff;--muted:#9d9d9d;--line:#2a2a2a;--orange:#fc5200;--green:#33c47a;--red:#ef5350}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}button,input{font:inherit}.app{width:min(680px,100%);margin:auto;padding:calc(14px + env(safe-area-inset-top)) 16px calc(28px + env(safe-area-inset-bottom))}.top{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 18px}.brand small{display:block;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.15em}.brand strong{font-size:18px;letter-spacing:.03em}.badge{padding:8px 11px;border-radius:999px;background:#15241b;color:#8fe3b2;font-size:10px;font-weight:900;border:1px solid #22452f}.badge.offline{background:#2a1e16;color:#ffb184;border-color:#52301d}.view{display:none}.view.active{display:block}.card{background:var(--panel);border:1px solid var(--line);border-radius:22px}.homeHero{padding:24px 18px 18px}.hello{font-size:30px;font-weight:900;letter-spacing:-.04em;margin:0 0 4px}.hello span{color:var(--orange)}.sub{margin:0;color:var(--muted);font-size:14px}.kicker{margin:26px 0 8px;font-size:10px;color:var(--orange);font-weight:900;letter-spacing:.16em}.field{display:flex;align-items:center;gap:10px;background:#111;border:1px solid #2a2a2a;border-radius:16px;padding:0 14px}.field input{height:58px;flex:1;border:0;outline:0;background:transparent;color:#fff;font-size:16px;font-weight:750}.field input::placeholder{color:#666}.primary,.secondary,.danger{width:100%;border:0;cursor:pointer;font-weight:900}.primary{margin-top:12px;min-height:62px;border-radius:999px;background:var(--orange);color:#fff}.primary:disabled{opacity:.35}.install{margin-top:12px;display:flex;align-items:center;gap:12px;padding:15px 16px;background:#151515;border:1px solid var(--line);border-radius:18px;color:#fff;width:100%;text-align:left}.install b{display:block}.install small{display:block;color:var(--muted);margin-top:2px}.sectionHead{display:flex;justify-content:space-between;align-items:end;margin:26px 4px 10px}.sectionHead h3{margin:3px 0 0}.pill{font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:7px 10px}.history{display:grid;gap:9px}.historyItem{position:relative;display:flex;justify-content:space-between;gap:12px;padding:15px 72px 15px 15px;background:var(--panel);border:1px solid var(--line);border-radius:17px}.historyItem h4{margin:0 0 5px;font-size:14px}.historyItem p{margin:0;color:var(--muted);font-size:11px}.histNum{text-align:right}.histNum strong{display:block;font-size:18px}.histNum small{color:var(--muted);font-size:10px}.delete{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid #4b2924;background:#2b1714;color:#ff8f74}.empty{padding:24px;text-align:center;color:#777;border:1px dashed #333;border-radius:16px}.trackHead{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px}.trackHead .name{font-size:25px;font-weight:900}.trackHead small{color:var(--orange);font-weight:900;letter-spacing:.12em}.gpsBadge{padding:9px 11px;border-radius:999px;background:#252019;color:#ffae82;font-size:10px;font-weight:900;border:1px solid #4d2a18}.gpsBadge.good{background:#15241b;color:#8fe3b2;border-color:#22452f}.distanceCard{margin-top:12px;padding:28px 16px 22px;text-align:center}.metricLabel{font-size:10px;color:var(--muted);font-weight:900;letter-spacing:.18em}.distanceLine{display:flex;justify-content:center;align-items:flex-end;gap:10px;margin:10px 0}.distanceLine strong{font-size:clamp(82px,26vw,132px);line-height:.88;letter-spacing:-.07em}.distanceLine span{font-size:24px;font-weight:900;color:var(--orange);margin-bottom:14px}.live{font-size:10px;font-weight:900;color:#aaa}.live::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--orange);margin-right:7px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}.stat{padding:17px;background:var(--panel);border:1px solid var(--line);border-radius:18px}.stat small{display:block;color:#8f8f8f;font-size:9px;font-weight:900;letter-spacing:.1em;margin-bottom:6px}.stat strong{font-size:24px}.mapCard{overflow:hidden}.mapHead{display:flex;justify-content:space-between;align-items:center;padding:14px 16px}.mapHead strong{font-size:14px}.mapHead span{color:var(--muted);font-size:11px}#trackCanvas{display:block;width:100%;height:auto;background:#101010}.controls{position:sticky;bottom:max(8px,env(safe-area-inset-bottom));display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 0 4px;background:linear-gradient(180deg,transparent,var(--bg) 38%)}.secondary,.danger{min-height:58px;border-radius:999px}.secondary{background:var(--orange);color:#fff}.danger{background:#fff;color:#111}.note{text-align:center;color:#6f6f6f;font-size:10px;margin:10px}.finishHero{text-align:center;padding:28px 18px}.check{width:64px;height:64px;margin:0 auto 12px;display:grid;place-items:center;background:var(--orange);border-radius:50%;font-size:34px}.finishHero h2{margin:0 0 8px}.finishDistance{font-size:76px;font-weight:900;letter-spacing:-.06em}.finishDistance span{font-size:20px;color:var(--orange);letter-spacing:0}.summaryStats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}.photoCard{padding:18px}.photoCard h3{margin:0 0 4px}.photoCard p{margin:0 0 14px;color:var(--muted);font-size:12px}.photoBtn{display:grid;place-items:center;min-height:56px;border-radius:999px;background:#252525;border:1px solid #393939;font-weight:900}.preview{width:100%;max-height:280px;object-fit:cover;border-radius:16px;margin-top:12px}.hidden{display:none!important}.formats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}.format{min-height:48px;border-radius:999px;border:1px solid #343434;background:#1a1a1a;color:#aaa;font-weight:900}.format.active{background:var(--orange);border-color:var(--orange);color:#fff}.textBtn{display:block;margin:16px auto;border:0;background:none;color:#aaa;font-size:16px}.artWrap{background:#050505;border-radius:20px;overflow:hidden;border:1px solid var(--line)}#artCanvas{display:block;width:100%;height:auto}.modal{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.88);backdrop-filter:blur(12px)}.modalCard{width:min(420px,100%);padding:24px;background:#171717;border:1px solid #333;border-radius:24px;text-align:center}.modalCard h2{margin:0 0 6px}.modalCard p{margin:0 0 16px;color:#999}.modalCard input{width:100%;height:58px;border-radius:14px;border:1px solid #333;background:#0e0e0e;color:#fff;padding:0 14px;text-align:center;font-weight:800;outline:0}.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#fff;color:#111;padding:11px 15px;border-radius:999px;font-size:12px;font-weight:800;transition:.2s;z-index:99999}.toast.show{opacity:1;transform:translate(-50%,0)}
+</style>
 </head>
 <body>
-  <div class="ambient ambient-one"></div>
-  <div class="ambient ambient-two"></div>
-  <div class="app-shell">
-    <header class="topbar">
-      <div class="brand-mini"><div><p class="eyebrow">TRILHEIROS DE RONDONÓPOLIS</p><strong>TRILHEIROS GPS</strong></div></div>
-      <div id="networkBadge" class="badge online">● Online</div>
-    </header>
-
-    <main>
-      <section id="homeView" class="view active">
-        <div class="hero-card">
-          <div class="status-strip"><span>🛰️ GPS OFFLINE</span><i></i><span>PRONTO PARA AVENTURA</span></div>
-          <p class="eyebrow gold center">TRILHEIROS GPS</p>
-          <h1 class="hero-title">Pra onde vamos<br><span>hoje?</span></h1>
-          <p class="hero-copy">Escolha seu destino, confirme o GPS e comece a caminhar. O Trilheiros GPS registra distância, tempo, elevação e percurso para transformar sua aventura em conquista.</p>
-          <div class="start-panel">
-            <label class="field-label" for="trailName">QUAL É A AVENTURA DE HOJE?</label>
-            <div class="input-wrap"><span>📍</span><input id="trailName" class="premium-input" type="text" maxlength="60" placeholder="Ex.: Morro da Mesa" autocomplete="off" /></div>
-            <button id="startBtn" class="primary-btn huge-btn"><span class="start-icon">🥾</span><span class="btn-copy"><strong>INICIAR TRILHA</strong><small>Primeiro confirmamos o GPS do seu celular</small></span><span class="btn-arrow">›</span></button>
-          </div>
-          <div class="quick-grid"><div class="quick-card"><span class="quick-icon">🛰️</span><strong>GPS REAL</strong><small>Funciona sem internet</small></div><div class="quick-card"><span class="quick-icon">💾</span><strong>OFFLINE</strong><small>Salva no aparelho</small></div><div class="quick-card"><span class="quick-icon">🏆</span><strong>FINISHER</strong><small>Card premium no final</small></div></div>
-        </div>
-        <button id="installBtn" class="install-card"><div class="install-icon">📲</div><div><strong>INSTALAR TRILHEIROS GPS</strong><span>Coloque na tela inicial e use como aplicativo</span></div><div class="install-arrow">›</div></button>
-        <div id="iosInstallHelp" class="info-card hidden"><strong>📱 No iPhone</strong><span>No Safari, toque em <b>Compartilhar</b> e depois em <b>Adicionar à Tela de Início</b>.</span></div>
-        <div class="section-head"><div><p class="eyebrow gold">MINHAS AVENTURAS</p><h3>Histórico de trilhas</h3></div><span id="historyCount" class="pill">0 trilhas</span></div>
-        <div id="historyList" class="history-list"></div>
-      </section>
-
-      <section id="trackView" class="view">
-        <div class="tracking-head-card"><div class="tracking-title"><p class="eyebrow gold">TRILHA EM ANDAMENTO</p><h2 id="trackingTrailName">Minha Trilha</h2></div><div id="gpsBadge" class="badge gps-search">GPS...</div></div>
-        <div class="distance-card"><span class="distance-label">DISTÂNCIA PERCORRIDA</span><div class="distance-number"><strong id="distanceValue">0</strong><small>M</small></div><div class="live-dot"><i></i> AGUARDANDO GPS</div></div>
-        <div class="stats-grid"><div class="stat"><span>⏱️ TEMPO</span><strong id="timeValue">00:00:00</strong></div><div class="stat"><span>⚡ MÉDIA</span><strong id="avgValue">0,0 km/h</strong></div><div class="stat"><span>🚶 AGORA</span><strong id="speedValue">0,0 km/h</strong></div><div class="stat"><span>⛰️ ELEVAÇÃO</span><strong id="elevationValue">+0 m</strong></div></div>
-        <div class="track-card"><div class="track-card-head"><div><span class="map-kicker">PERCURSO GPS</span><strong>Seu caminho</strong></div><span id="accuracyValue">Precisão: --</span></div><canvas id="trackCanvas" width="900" height="540"></canvas><div id="waitingGps" class="track-empty"><div class="satellite-pulse">🛰️</div><strong>Confirmando GPS...</strong><span>Mantenha a localização precisa ativada</span></div></div>
-        <div class="tracking-actions"><button id="pauseBtn" class="secondary-btn">⏸️ PAUSAR</button><button id="finishBtn" class="danger-btn">🏁 FINALIZAR</button></div>
-        <div class="safety-note">GPS, distância, velocidade, histórico e arte funcionam sem internet. Mantenha a localização precisa ativada.</div>
-      </section>
-
-      <section id="summaryView" class="view">
-        <div class="finish-hero"><div class="success-mark">✓</div><p class="eyebrow gold center">TRILHA CONCLUÍDA</p><h2 id="summaryTrailName" class="summary-title">Minha Trilha</h2><div class="summary-distance"><strong id="summaryDistance">0,00</strong><span>KM</span></div><div class="finish-line"><span></span><b>TRILHEIROS DE RONDONÓPOLIS</b><span></span></div></div>
-        <div class="summary-stats"><div><span>⏱️ TEMPO</span><strong id="summaryTime">00:00:00</strong></div><div><span>⚡ MÉDIA</span><strong id="summaryAvg">0,0 km/h</strong></div><div><span>⛰️ ELEVAÇÃO</span><strong id="summaryElevation">+0 m</strong></div><div><span>📍 PONTOS GPS</span><strong id="summaryPoints">0</strong></div></div>
-        <div class="photo-card"><div class="photo-title"><div class="photo-icon">📸</div><div><strong>Crie seu card FINISHER</strong><span>Escolha uma foto da aventura</span></div></div><label class="photo-button" for="photoInput">ESCOLHER FOTO</label><input id="photoInput" type="file" accept="image/*" hidden /><img id="photoPreview" class="photo-preview hidden" alt="Foto escolhida" /></div>
-        <div class="format-row"><button class="format-btn active" data-format="story">Story 9:16</button><button class="format-btn" data-format="feed">Feed 4:5</button><button class="format-btn" data-format="square">Quadrado</button></div>
-        <button id="generateBtn" class="primary-btn huge-btn" disabled>✨ GERAR ARTE PREMIUM</button><button id="newTrailBtn" class="text-btn">← Voltar ao início</button>
-      </section>
-
-      <section id="artView" class="view"><div class="art-head"><p class="eyebrow gold center">FINISHER OFICIAL</p><h2 class="center">Pronta para compartilhar.</h2><p>Seu resultado com a identidade dos Trilheiros.</p></div><div class="art-preview-wrap"><canvas id="artCanvas" width="1080" height="1920"></canvas></div><button id="shareBtn" class="primary-btn huge-btn">📲 COMPARTILHAR</button><button id="downloadBtn" class="secondary-btn full-btn">⬇️ SALVAR IMAGEM</button><button id="backSummaryBtn" class="text-btn">← Escolher outra foto ou formato</button></section>
-    </main>
-    <footer><span>TRILHEIROS DE RONDONÓPOLIS<br><small>A aventura te chama.</small></span></footer>
+<div class="app">
+<header class="top"><div class="brand"><small>TRILHEIROS DE RONDONÓPOLIS</small><strong>TRILHEIROS GPS</strong></div><div id="networkBadge" class="badge">● Online</div></header>
+<main>
+<section id="homeView" class="view active">
+  <div class="card homeHero">
+    <h1 class="hello">Bem-vindo, <span id="welcomeName">Trilheiro(a)</span>!</h1><p class="sub">Pra onde vamos hoje?</p>
+    <div class="kicker">NOVA ATIVIDADE</div>
+    <div class="field"><span>📍</span><input id="trailName" maxlength="60" placeholder="Ex.: Morro da Mesa"></div>
+    <button id="startBtn" class="primary">▶ INICIAR TRILHA</button>
   </div>
-  <div id="toast" class="toast"></div>
+  <button id="installBtn" class="install"><span>📲</span><div><b>Instalar Trilheiros GPS</b><small>Use como aplicativo no celular</small></div></button>
+  <div class="sectionHead"><div><small style="color:var(--orange);font-weight:900">MINHAS ATIVIDADES</small><h3>Histórico</h3></div><span id="historyCount" class="pill">0 trilhas</span></div>
+  <div id="historyList" class="history"></div>
+</section>
 
-  <script src="app.js?v=26.1" defer></script>
-  <script src="v16-profile-history.js?v=26.1" defer></script>
-  <script src="gps-engine-v26.js?v=26.1" defer></script>
-  <script src="v26-runtime.js?v=26.1" defer></script>
-</body>
-</html>
+<section id="trackView" class="view">
+  <div class="card trackHead"><div><small>TRILHA EM ANDAMENTO</small><div id="trackingTrailName" class="name">Minha Trilha</div></div><div id="gpsBadge" class="gpsBadge">GPS...</div></div>
+  <div class="card distanceCard"><div class="metricLabel">DISTÂNCIA</div><div class="distanceLine"><strong id="distanceValue">0</strong><span id="distanceUnit">M</span></div><div id="liveStatus" class="live">AGUARDANDO GPS</div></div>
+  <div class="stats">
+    <div class="stat"><small>⏱ TEMPO</small><strong id="timeValue">00:00:00</strong></div>
+    <div class="stat"><small>🚶 AGORA</small><strong id="speedValue">0,0 km/h</strong></div>
+    <div class="stat"><small>⚡ MÉDIA</small><strong id="avgValue">0,0 km/h</strong></div>
+    <div class="stat"><small>⛰ ELEVAÇÃO</small><strong id="elevationValue">+0 m</strong></div>
+  </div>
+  <div class="card mapCard"><div class="mapHead"><strong>Percurso GPS</strong><span id="accuracyValue">Precisão: --</span></div><canvas id="trackCanvas" width="900" height="520"></canvas></div>
+  <div class="controls"><button id="pauseBtn" class="secondary">⏸ PAUSAR</button><button id="finishBtn" class="danger">🏁 FINALIZAR</button></div>
+  <div class="note">Funciona sem internet após o primeiro carregamento. Mantenha a localização precisa ativada.</div>
+</section>
+
+<section id="summaryView" class="view">
+  <div class="card finishHero"><div class="check">✓</div><small style="color:var(--orange);font-weight:900">TRILHA CONCLUÍDA</small><h2 id="summaryTrailName">Minha Trilha</h2><div class="finishDistance"><span id="summaryDistance">0,00</span> <span>KM</span></div></div>
+  <div class="summaryStats">
+    <div class="stat"><small>TEMPO</small><strong id="summaryTime">00:00:00</strong></div>
+    <div class="stat"><small>MÉDIA</small><strong id="summaryAvg">0,0 km/h</strong></div>
+    <div class="stat"><small>ELEVAÇÃO</small><strong id="summaryElevation">+0 m</strong></div>
+    <div class="stat"><small>PONTOS GPS</small><strong id="summaryPoints">0</strong></div>
+  </div>
+  <div class="card photoCard"><h3>📸 Card FINISHER</h3><p>Escolha uma foto da aventura. A arte é gerada no próprio celular.</p><label class="photoBtn" for="photoInput">ESCOLHER FOTO</label><input id="photoInput" type="file" accept="image/*" hidden><img id="photoPreview" class="preview hidden" alt="Prévia"></div>
+  <div class="formats"><button class="format active" data-format="story">Story 9:16</button><button class="format" data-format="feed">Feed 4:5</button><button class="format" data-format="square">Quadrado</button></div>
+  <button id="generateBtn" class="primary" disabled>✨ GERAR ARTE PREMIUM</button><button id="newTrailBtn" class="textBtn">← Voltar ao início</button>
+</section>
+
+<section id="artView" class="view"><div class="artWrap"><canvas id="artCanvas" width="1080" height="1920"></canvas></div><button id="shareBtn" class="primary">📲 COMPARTILHAR</button><button id="downloadBtn" class="secondary" style="margin-top:10px">⬇ SALVAR IMAGEM</button><button id="backSummaryBtn" class="textBtn">← Voltar</button></section>
+</main>
+</div>
+<div id="toast" class="toast"></div>
+<script>
+(() => {
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const KEYS={profile:'trilheiros_profile_name',active:'trilheiros_active_v27',history:'trilheiros_history'};
+let state=loadActive()||fresh(),watchId=null,timerId=null,wakeLock=null,deferredInstall=null,selectedFormat='story',photo=null,photoUrl=null;
+const gps={anchor:null,pending:null,speed:0,lastMotion:0};
+function fresh(){return{active:false,paused:false,name:'',startedAt:0,pausedAt:0,totalPaused:0,endedAt:0,distanceM:0,elevationGain:0,maxAltitude:null,points:[],summary:null}}
+function loadActive(){try{return JSON.parse(localStorage.getItem(KEYS.active)||'null')}catch{return null}}
+function saveActive(){state.active?localStorage.setItem(KEYS.active,JSON.stringify(state)):localStorage.removeItem(KEYS.active)}
+function history(){try{return JSON.parse(localStorage.getItem(KEYS.history)||'[]')}catch{return[]}}
+function saveHistory(a){localStorage.setItem(KEYS.history,JSON.stringify(a.slice(0,100)))}
+function profile(){return(localStorage.getItem(KEYS.profile)||'').trim()}
+function esc(v=''){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function time(sec){sec=Math.max(0,Math.floor(sec||0));return`${String(Math.floor(sec/3600)).padStart(2,'0')}:${String(Math.floor((sec%3600)/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`}
+function km(m){return((m||0)/1000).toFixed(2).replace('.',',')}
+function hav(a,b){const R=6371000,r=x=>x*Math.PI/180,dLat=r(b.lat-a.lat),dLon=r(b.lon-a.lon),q=Math.sin(dLat/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dLon/2)**2;return 2*R*Math.atan2(Math.sqrt(q),Math.sqrt(1-q))}
+function elapsed(){if(!state.startedAt)return 0;const end=state.active?Date.now():(state.endedAt||Date.now()),open=state.paused&&state.pausedAt?end-state.pausedAt:0;return Math.max(0,(end-state.startedAt-state.totalPaused-open)/1000)}
+function avg(){const h=elapsed()/3600;return h>0?(state.distanceM/1000)/h:0}
+function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2400)}
+function view(n){$$('.view').forEach(v=>v.classList.remove('active'));$('#'+n+'View').classList.add('active');scrollTo({top:0,behavior:'instant'})}
+function onboarding(){const n=profile();$('#welcomeName').textContent=n||'Trilheiro(a)';if(n)return;const m=document.createElement('div');m.className='modal';m.innerHTML='<div class="modalCard"><h2>Seu nome</h2><p>Ele ficará salvo somente neste celular.</p><input id="profileInput" maxlength="45" placeholder="Coloque o seu nome"><button id="profileSave" class="primary">CONTINUAR</button></div>';document.body.appendChild(m);const save=()=>{const v=$('#profileInput').value.trim().replace(/\s+/g,' ').slice(0,45);if(!v)return;localStorage.setItem(KEYS.profile,v);$('#welcomeName').textContent=v;m.remove()};$('#profileSave').onclick=save;$('#profileInput').addEventListener('keydown',e=>e.key==='Enter'&&save())}
+function renderHistory(){const a=history(),l=$('#historyList');$('#historyCount').textContent=`${a.length} ${a.length===1?'trilha':'trilhas'}`;if(!a.length){l.innerHTML='<div class="empty">Sua próxima trilha vai aparecer aqui.</div>';return}l.innerHTML=a.map((i,x)=>`<div class="historyItem"><div><h4>${esc(i.name||'Minha Trilha')}</h4><p>${new Date(i.date).toLocaleDateString('pt-BR')} • ${time(i.elapsed)}</p></div><div class="histNum"><strong>${km(i.distanceM)} km</strong><small>${(i.avg||0).toFixed(1).replace('.',',')} km/h</small></div><button class="delete" data-del="${x}">🗑</button></div>`).join('')}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-del]');if(!b)return;const a=history(),i=+b.dataset.del;if(!confirm('Excluir esta trilha?'))return;a.splice(i,1);saveHistory(a);renderHistory()})
+function network(){const b=$('#networkBadge');b.className='badge'+(navigator.onLine?'':' offline');b.textContent=navigator.onLine?'● Online':'● Offline'}addEventListener('online',network);addEventListener('offline',network);
+async function wake(){try{if('wakeLock'in navigator&&!wakeLock)wakeLock=await navigator.wakeLock.request('screen')}catch{}}
+function badge(acc){const b=$('#gpsBadge');if(acc<=12){b.className='gpsBadge good';b.textContent='GPS EXCELENTE'}else if(acc<=25){b.className='gpsBadge good';b.textContent='GPS BOM'}else{b.className='gpsBadge';b.textContent='GPS PROTEGIDO'}}
+function speed(v,hard=false){v=Number.isFinite(v)?Math.max(0,Math.min(18,v)):0;gps.speed=hard?v:(gps.speed?gps.speed*.58+v*.42:v);if(gps.speed<.25)gps.speed=0;$('#speedValue').textContent=`${gps.speed.toFixed(1).replace('.',',')} km/h`}
+function status(t){$('#liveStatus').textContent=t}
+function render(){if(state.distanceM<1000){$('#distanceValue').textContent=Math.round(state.distanceM);$('#distanceUnit').textContent='M'}else{$('#distanceValue').textContent=km(state.distanceM);$('#distanceUnit').textContent='KM'}$('#timeValue').textContent=time(elapsed());$('#avgValue').textContent=`${avg().toFixed(1).replace('.',',')} km/h`;$('#elevationValue').textContent=`+${Math.round(state.elevationGain||0)} m`;saveActive()}
+function dead(a,b){return Math.max(2.5,Math.min(6,((a.acc||8)+(b.acc||8))*.25))}
+function accept(p,deviceKmh){const a=gps.anchor,d=hav(a,p),dt=Math.max(1,(p.time-a.time)/1000),calc=Math.min(18,d/dt*3.6);state.distanceM+=d;if(p.alt!==null&&a.alt!==null){const da=p.alt-a.alt;if((p.altAcc==null||p.altAcc<=20)&&Math.abs(da)<=15&&da>2.5)state.elevationGain+=da}state.points.push(p);gps.anchor=p;gps.pending=null;gps.lastMotion=Date.now();speed(deviceKmh!==null?calc*.55+deviceKmh*.45:calc);draw();render();status('MOVIMENTO REGISTRADO')}
+function pos(position){if(!state.active||state.paused)return;const c=position.coords,p={lat:c.latitude,lon:c.longitude,acc:c.accuracy||999,time:position.timestamp||Date.now(),alt:Number.isFinite(c.altitude)?c.altitude:null,altAcc:Number.isFinite(c.altitudeAccuracy)?c.altitudeAccuracy:null};$('#accuracyValue').textContent=`Precisão: ${Math.round(p.acc)} m`;badge(p.acc);if(p.acc>40){gps.pending=null;if(Date.now()-gps.lastMotion>5000)speed(0,true);status('SINAL FRACO • AGUARDANDO GPS');return}if(!gps.anchor){gps.anchor=p;state.points=[p];status('GPS PRONTO • COMECE A CAMINHAR');speed(0,true);saveActive();return}const a=gps.anchor,d=hav(a,p),dt=Math.max(1,(p.time-a.time)/1000),calc=d/dt*3.6,raw=Number.isFinite(c.speed)?c.speed*3.6:null,device=raw!==null&&raw>=0&&raw<=18?raw:null,th=dead(a,p);if(d>90||calc>20||(raw!==null&&raw>28)){gps.pending=null;status('SALTO DE GPS IGNORADO');return}if(d<th){if(device!==null&&device>=.8){gps.lastMotion=Date.now();speed(device);status('MOVIMENTO DETECTADO')}else if(Date.now()-gps.lastMotion>5000){speed(0,true);status('PARADO • DISTÂNCIA NÃO SOMADA')}return}if(device!==null&&device>=.8){accept(p,device);return}if(!gps.pending){gps.pending=p;if(calc>=.8&&calc<=18)speed(calc);status('CONFIRMANDO MOVIMENTO...');return}const adv=hav(gps.pending,p),prev=hav(a,gps.pending),progress=d>=prev+1.1;if(adv>=1.2&&progress){accept(p,null)}else{gps.pending=p;status('CONFIRMANDO MOVIMENTO...')}}
+function gpsErr(e){$('#gpsBadge').className='gpsBadge';$('#gpsBadge').textContent=e.code===1?'PERMISSÃO GPS':'GPS RECONECTANDO';speed(0,true);status('GPS SEM POSIÇÃO');if(e.code===1)toast('Permita a localização precisa')}
+function watch(){if(watchId!==null)navigator.geolocation.clearWatch(watchId);watchId=navigator.geolocation.watchPosition(pos,gpsErr,{enableHighAccuracy:true,maximumAge:0,timeout:20000})}
+function fix(){return new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{enableHighAccuracy:true,maximumAge:0,timeout:20000}))}
+function draw(){const c=$('#trackCanvas'),x=c.getContext('2d'),p=state.points||[];x.clearRect(0,0,c.width,c.height);x.fillStyle='#101010';x.fillRect(0,0,c.width,c.height);if(p.length<2)return;const la=p.map(q=>q.lat),lo=p.map(q=>q.lon),a=Math.min(...la),b=Math.max(...la),d=Math.min(...lo),e=Math.max(...lo),pad=55,w=Math.max(.000001,e-d),h=Math.max(.000001,b-a),xy=q=>[pad+(q.lon-d)/w*(c.width-pad*2),c.height-pad-(q.lat-a)/h*(c.height-pad*2)];x.strokeStyle='#fc5200';x.lineWidth=8;x.lineCap='round';x.lineJoin='round';x.beginPath();p.forEach((q,i)=>{const[r,s]=xy(q);i?x.lineTo(r,s):x.moveTo(r,s)});x.stroke()}
+async function start(){if(!navigator.geolocation)return toast('GPS indisponível');const b=$('#startBtn'),old=b.textContent;b.disabled=true;b.textContent='🛰 LOCALIZANDO...';try{const f=await fix(),c=f.coords,p={lat:c.latitude,lon:c.longitude,acc:c.accuracy||999,time:f.timestamp||Date.now(),alt:Number.isFinite(c.altitude)?c.altitude:null,altAcc:Number.isFinite(c.altitudeAccuracy)?c.altitudeAccuracy:null};state=fresh();state.active=true;state.name=$('#trailName').value.trim()||'Minha Trilha';state.startedAt=Date.now();state.points=[p];gps.anchor=p;gps.pending=null;gps.speed=0;gps.lastMotion=0;$('#trackingTrailName').textContent=state.name;view('track');saveActive();timerId=setInterval(()=>{render();if(Date.now()-gps.lastMotion>6500)speed(0,true)},1000);render();draw();await wake();watch();status('GPS PRONTO • COMECE A CAMINHAR')}catch(e){toast(e.code===1?'Permita a localização precisa':'Não consegui fixar o GPS')}finally{b.disabled=false;b.textContent=old}}
+function pause(){if(!state.active)return;if(!state.paused){state.paused=true;state.pausedAt=Date.now();$('#pauseBtn').textContent='▶ CONTINUAR';speed(0,true);status('PAUSADO')}else{state.totalPaused+=Date.now()-state.pausedAt;state.pausedAt=0;state.paused=false;$('#pauseBtn').textContent='⏸ PAUSAR';gps.anchor=state.points.at(-1)||gps.anchor;gps.pending=null;watch();status('REGISTRANDO')}saveActive();render()}
+function finish(){if(!state.active||!confirm('Finalizar esta trilha?'))return;if(watchId!==null)navigator.geolocation.clearWatch(watchId);clearInterval(timerId);state.endedAt=Date.now();const elapsedFinal=elapsed();const avgFinal=elapsedFinal>0?(state.distanceM/1000)/(elapsedFinal/3600):0;state.active=false;state.paused=false;const item={id:Date.now(),name:state.name,date:state.endedAt,distanceM:state.distanceM,elapsed:elapsedFinal,elevationGain:state.elevationGain||0,points:state.points.length,avg:avgFinal};const a=history();a.unshift(item);saveHistory(a);state.summary=item;localStorage.removeItem(KEYS.active);summary(item);renderHistory();view('summary')}
+function summary(i){$('#summaryTrailName').textContent=i.name;$('#summaryDistance').textContent=km(i.distanceM);$('#summaryTime').textContent=time(i.elapsed);$('#summaryAvg').textContent=`${i.avg.toFixed(1).replace('.',',')} km/h`;$('#summaryElevation').textContent=`+${Math.round(i.elevationGain)} m`;$('#summaryPoints').textContent=i.points}
+function loadPhoto(file){return new Promise((res,rej)=>{const u=URL.createObjectURL(file),im=new Image();im.onload=()=>{photoUrl=u;res(im)};im.onerror=()=>{URL.revokeObjectURL(u);rej()};im.src=u})}
+function cover(x,im,w,h){const iw=im.naturalWidth,ih=im.naturalHeight,ir=iw/ih,cr=w/h;let sx=0,sy=0,sw=iw,sh=ih;if(ir>cr){sw=ih*cr;sx=(iw-sw)/2}else{sh=iw/cr;sy=(ih-sh)/2}x.drawImage(im,sx,sy,sw,sh,0,0,w,h)}
+function mini(x,p,X,Y,W,H){if(!p||p.length<2)return;const la=p.map(q=>q.lat),lo=p.map(q=>q.lon),a=Math.min(...la),b=Math.max(...la),c=Math.min(...lo),d=Math.max(...lo),dx=Math.max(.000001,d-c),dy=Math.max(.000001,b-a),pad=10,xy=q=>[X+pad+(q.lon-c)/dx*(W-pad*2),Y+H-pad-(q.lat-a)/dy*(H-pad*2)];x.strokeStyle='#fc5200';x.lineWidth=5;x.lineCap='round';x.beginPath();p.forEach((q,i)=>{const[r,s]=xy(q);i?x.lineTo(r,s):x.moveTo(r,s)});x.stroke()}
+function art(){if(!photo)return toast('Escolha uma foto');const c=$('#artCanvas'),x=c.getContext('2d'),size=selectedFormat==='feed'?[1080,1350]:selectedFormat==='square'?[1080,1080]:[1080,1920],[w,h]=size;c.width=w;c.height=h;cover(x,photo,w,h);const g=x.createLinearGradient(0,0,0,h);g.addColorStop(0,'rgba(0,0,0,.08)');g.addColorStop(.58,'rgba(0,0,0,.10)');g.addColorStop(1,'rgba(0,0,0,.95)');x.fillStyle=g;x.fillRect(0,0,w,h);x.fillStyle='#fc5200';x.fillRect(0,0,w,14);const s=state.summary,py=h-Math.min(520,h*.4);x.fillStyle='rgba(10,10,10,.82)';x.fillRect(0,py,w,h-py);x.fillStyle='#fc5200';x.font='900 22px Arial';x.fillText('TRILHA CONCLUÍDA',52,py+55);x.fillStyle='#fff';x.font='900 58px Arial';x.fillText((s.name||'MINHA TRILHA').toUpperCase().slice(0,24),52,py+125);x.font='900 138px Arial';x.fillText(km(s.distanceM),48,py+282);x.fillStyle='#fc5200';x.font='900 34px Arial';x.fillText('KM',430,py+282);mini(x,state.points,w-332,py+40,280,120);x.fillStyle='#aaa';x.font='700 18px Arial';x.fillText(`${profile()} • ${time(s.elapsed)} • ${s.avg.toFixed(1).replace('.',',')} km/h`,52,h-42);view('art')}
+async function blob(){return new Promise(r=>$('#artCanvas').toBlob(r,'image/jpeg',.94))}function download(b){const a=document.createElement('a'),u=URL.createObjectURL(b);a.href=u;a.download='trilha-concluida.jpg';a.click();setTimeout(()=>URL.revokeObjectURL(u),2500)}
+$('#startBtn').onclick=start;$('#pauseBtn').onclick=pause;$('#finishBtn').onclick=finish;$('#newTrailBtn').onclick=()=>view('home');$('#backSummaryBtn').onclick=()=>view('summary');$$('.format').forEach(b=>b.onclick=()=>{$$('.format').forEach(z=>z.classList.remove('active'));b.classList.add('active');selectedFormat=b.dataset.format});$('#photoInput').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{photo=await loadPhoto(f);$('#photoPreview').src=photoUrl;$('#photoPreview').classList.remove('hidden');$('#generateBtn').disabled=false;toast('Foto pronta')}catch{toast('Não consegui abrir a foto')}};$('#generateBtn').onclick=art;$('#downloadBtn').onclick=async()=>download(await blob());$('#shareBtn').onclick=async()=>{const b=await blob(),f=new File([b],'trilha-concluida.jpg',{type:'image/jpeg'});if(navigator.canShare?.({files:[f]})){try{return await navigator.share({files:[f],title:'Trilha concluída'})}catch(e){if(e.name==='AbortError')return}}download(b)};addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e});$('#installBtn').onclick=async()=>{if(deferredInstall){deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null}else alert('No Chrome, toque em ⋮ e escolha “Instalar app” ou “Adicionar à tela inicial”.')};
+function boot(){onboarding();network();renderHistory();if(state.active){gps.anchor=state.points.at(-1)||null;$('#trackingTrailName').textContent=state.name||'Minha Trilha';view('track');timerId=setInterval(render,1000);render();draw();watch()}if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js?v=27').catch(()=>{})}boot();
+})();
+</script>
+</body></html>
