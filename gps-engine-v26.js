@@ -108,7 +108,7 @@
         return {accepted:false,reason:'spike',distanceDelta:0,speedKmh:0,point:f};
       }
 
-      const moveThreshold=Math.max(2.2,threshold*0.9);
+      const moveThreshold=(rawPlausible!==null&&rawPlausible>=0.7)?1.2:Math.max(2.2,threshold*0.9);
       if(seg<moveThreshold){
         return {accepted:false,reason:'moving-small',distanceDelta:0,speedKmh:this._smooth(live||acceptedKmh),threshold:moveThreshold,point:f};
       }
