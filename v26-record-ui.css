@@ -1,0 +1,20 @@
+/* V26 — tela de gravação inspirada na hierarquia visual do Strava, mantendo a identidade Trilheiros */
+#trackView .tracking-head-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px;border-radius:22px;background:#0a1f1a;border:1px solid rgba(255,255,255,.07);box-shadow:0 12px 30px rgba(0,0,0,.22)}
+#trackView .tracking-title{flex:1;min-width:0}#trackView .tracking-title h2{font-size:21px;margin-top:5px}
+#trackView .distance-card{min-height:255px;border-radius:26px;background:linear-gradient(180deg,#0a251f,#071914);border:1px solid rgba(241,198,111,.2);box-shadow:0 18px 48px rgba(0,0,0,.26)}
+#trackView .distance-card:before,#trackView .distance-card:after,#trackView .distance-orbit{display:none!important}
+#trackView .distance-label{font-size:10px;letter-spacing:.18em;color:#a8bab3}
+#trackView .distance-number strong{font-size:clamp(86px,24vw,126px);line-height:.86;background:linear-gradient(180deg,#fff2c9,#f1c66f 55%,#c98c35);-webkit-background-clip:text;background-clip:text;color:transparent}
+#trackView .distance-number small{font-size:20px;color:#d9e2de}
+#trackView .stats-grid{grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+#trackView .stat{min-height:94px;padding:13px 10px;border-radius:18px;background:#0a211c;border:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;justify-content:center}
+#trackView .stat span{font-size:8px}#trackView .stat strong{font-size:clamp(16px,4.6vw,22px)}
+#trackView .stat:nth-child(4){grid-column:1/-1;min-height:68px;display:grid;grid-template-columns:1fr auto;align-items:center;padding:12px 16px}
+#trackView .track-card{border-radius:22px;background:#061511;border:1px solid rgba(255,255,255,.07);box-shadow:none}
+#trackView .track-card-head{padding:14px 16px}
+#trackView .map-mode-bar{padding:12px 14px;background:#071a15}
+#trackView .tracking-actions{position:sticky;bottom:8px;z-index:15;grid-template-columns:1fr 1.25fr;gap:10px;margin-top:12px;padding:8px;border-radius:22px;background:rgba(3,13,10,.78);backdrop-filter:blur(14px)}
+#trackView .secondary-btn,#trackView .danger-btn{min-height:58px;border-radius:16px;font-size:13px}
+#trackView .danger-btn{background:linear-gradient(135deg,#f1c66f,#c98d38);color:#0c1d17;border:none}
+#trackView .live-dot{font-size:9px;letter-spacing:.09em}
+@media(max-width:420px){#trackView .stats-grid{grid-template-columns:repeat(2,1fr)}#trackView .stat:nth-child(4){grid-column:auto;display:flex;min-height:94px;padding:13px 10px}.distance-number strong{font-size:82px!important}}
