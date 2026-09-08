@@ -12,100 +12,19 @@
   <link rel="stylesheet" href="./master.css">
 </head>
 <body>
-  <header class="topbar">
-    <button class="admin-button" id="adminButton" type="button" aria-label="Abrir modo administrador"><span class="admin-lock">🔐</span><span class="admin-label">ADM</span></button>
-  </header>
-
+  <header class="topbar"><button class="admin-button" id="adminButton" type="button" aria-label="Abrir modo administrador"><span class="admin-lock">🔐</span><span class="admin-label">ADM</span></button></header>
   <main>
-    <section class="hero" aria-labelledby="heroTitle">
-      <div class="hero-inner">
-        <img class="hero-logo" src="https://i.postimg.cc/JnF2F9Hw/LOGO-TRILHEIROS-Photoroom.png" alt="Logo oficial Trilheiros de Rondonópolis">
-        <span class="hero-overline">GALERIA OFICIAL</span>
-        <h1 id="heroTitle">COMPARTILHE SUA EXPERIÊNCIA</h1>
-        <p class="hero-subtitle">Uma foto. Uma aventura. Uma história para guardar.</p>
-      </div>
-    </section>
-
-    <section class="featured-section" aria-labelledby="featuredTitle">
-      <div class="section-shell">
-        <div class="section-heading compact">
-          <div><span class="eyebrow">DESTAQUE AGORA</span><h2 id="featuredTitle">Última aventura publicada</h2></div>
-          <span class="live-dot"><i></i> ao vivo</span>
-        </div>
-        <article class="featured-card" id="featuredCard">
-          <div class="featured-media">
-            <img id="featuredImage" alt="Última aventura publicada" hidden>
-            <div class="featured-placeholder" id="featuredPlaceholder">
-              <img src="https://i.postimg.cc/JnF2F9Hw/LOGO-TRILHEIROS-Photoroom.png" alt="">
-              <strong>Seu momento pode aparecer aqui.</strong><span>Publique uma foto e entre para o álbum.</span>
-            </div>
-          </div>
-          <div class="featured-info">
-            <div class="featured-meta"><span id="featuredDate">Galeria dos Trilheiros</span><span class="newest-badge">mais recente</span></div>
-            <h3 id="featuredAdventure">Compartilhe sua experiência</h3>
-            <p id="featuredDescription">As novas publicações aparecem primeiro e também continuam na galeria abaixo.</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="gallery-section" id="galeria" aria-labelledby="galleryTitle">
-      <div class="section-shell">
-        <div class="section-heading">
-          <div><span class="eyebrow">ÁLBUM DA COMUNIDADE</span><h2 id="galleryTitle">Aventuras dos Trilheiros</h2></div>
-          <span class="count-pill"><b id="photoCount">0</b> fotos</span>
-        </div>
-        <div class="gallery-grid" id="galleryGrid" aria-live="polite"></div>
-        <div class="empty-state" id="emptyState" hidden><span class="empty-icon">📸</span><h3>O álbum está esperando a primeira aventura.</h3><button class="primary-button open-upload" type="button">Enviar foto</button></div>
-      </div>
-    </section>
+    <section class="hero" aria-labelledby="heroTitle"><div class="hero-inner"><img class="hero-logo" src="https://i.postimg.cc/JnF2F9Hw/LOGO-TRILHEIROS-Photoroom.png" alt="Logo oficial Trilheiros de Rondonópolis"><span class="hero-overline">GALERIA OFICIAL</span><h1 id="heroTitle">COMPARTILHE SUA EXPERIÊNCIA</h1><p class="hero-subtitle">Uma foto. Uma aventura. Uma história para guardar.</p></div></section>
+    <section class="featured-section" aria-labelledby="featuredTitle"><div class="section-shell"><div class="section-heading compact"><div><span class="eyebrow">DESTAQUE AGORA</span><h2 id="featuredTitle">Última aventura publicada</h2></div><span class="live-dot"><i></i> ao vivo</span></div><article class="featured-card" id="featuredCard"><div class="featured-media"><img id="featuredImage" alt="Última aventura publicada" hidden><div class="featured-placeholder" id="featuredPlaceholder"><img src="https://i.postimg.cc/JnF2F9Hw/LOGO-TRILHEIROS-Photoroom.png" alt=""><strong>Seu momento pode aparecer aqui.</strong><span>Publique uma foto e entre para o álbum.</span></div></div><div class="featured-info"><div class="featured-meta"><span id="featuredDate">Galeria dos Trilheiros</span><span class="newest-badge">mais recente</span></div><h3 id="featuredAdventure">Compartilhe sua experiência</h3><p id="featuredDescription">As novas publicações aparecem primeiro e também continuam na galeria abaixo.</p></div></article></div></section>
+    <section class="gallery-section" id="galeria" aria-labelledby="galleryTitle"><div class="section-shell"><div class="section-heading"><div><span class="eyebrow">ÁLBUM DA COMUNIDADE</span><h2 id="galleryTitle">Aventuras dos Trilheiros</h2></div><span class="count-pill"><b id="photoCount">0</b> fotos</span></div><div class="gallery-grid" id="galleryGrid" aria-live="polite"></div><div class="empty-state" id="emptyState" hidden><span class="empty-icon">📸</span><h3>O álbum está esperando a primeira aventura.</h3><button class="primary-button open-upload" type="button">Enviar foto</button></div></div></section>
   </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-      <img src="https://i.postimg.cc/JnF2F9Hw/LOGO-TRILHEIROS-Photoroom.png" alt="Logo Trilheiros">
-      <div class="footer-copy"><strong>Trilheiros de Rondonópolis</strong><span>Natureza • aventura • memórias</span></div>
-      <div class="footer-socials">
-        <a href="https://www.instagram.com/trilheiros.roomt/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"></circle></svg><span>Instagram<small>@trilheiros.roomt</small></span></a>
-        <a href="https://www.tiktok.com/@trilheiros.roomt" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.5 3c.3 2.2 1.6 3.6 3.9 3.9V10c-1.5 0-2.8-.4-3.9-1.2v6.1a6 6 0 1 1-5.2-5.9v3.2a2.8 2.8 0 1 0 2 2.7V3h3.2z"/></svg><span>TikTok<small>@trilheiros.roomt</small></span></a>
-      </div>
-    </div>
-  </footer>
-
+  <footer class="footer"><div class="footer-inner"><img src="https://i.postimg.cc/JnF2F9Hw/LOGO-TRILHEIROS-Photoroom.png" alt="Logo Trilheiros"><div class="footer-copy"><strong>Trilheiros de Rondonópolis</strong><span>Natureza • aventura • memórias</span></div><div class="footer-socials"><a href="https://www.instagram.com/trilheiros.roomt/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"></circle></svg><span>Instagram<small>@trilheiros.roomt</small></span></a><a href="https://www.tiktok.com/@trilheiros.roomt" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.5 3c.3 2.2 1.6 3.6 3.9 3.9V10c-1.5 0-2.8-.4-3.9-1.2v6.1a6 6 0 1 1-5.2-5.9v3.2a2.8 2.8 0 1 0 2 2.7V3h3.2z"/></svg><span>TikTok<small>@trilheiros.roomt</small></span></a></div></div></footer>
   <button class="fab open-upload" id="fabUpload" type="button" aria-label="Enviar foto"><span class="fab-icon">📷</span><span class="fab-text">Enviar Foto</span></button>
-
-  <div class="modal-backdrop" id="uploadModal" aria-hidden="true">
-    <section class="modal-sheet" role="dialog" aria-modal="true" aria-labelledby="uploadTitle">
-      <div class="modal-handle" aria-hidden="true"></div>
-      <header class="modal-header"><div><span class="eyebrow">NOVA AVENTURA</span><h2 id="uploadTitle">Compartilhe sua experiência</h2></div><button class="icon-button close-modal" type="button" aria-label="Fechar">✕</button></header>
-      <form id="uploadForm" novalidate>
-        <div class="upload-preview" id="uploadPreview">
-          <input id="photoInput" name="photo" type="file" accept="image/*,.heic,.heif" hidden required>
-          <button class="photo-picker" id="photoPicker" type="button"><span>📷</span><strong>Escolher foto</strong><small>Toque para selecionar do celular</small></button>
-          <img id="previewImage" alt="Prévia da foto" hidden>
-        </div>
-        <div class="preview-actions" id="previewActions" hidden><button type="button" id="changePhoto">Trocar foto</button><button type="button" id="removePhoto" class="danger-text">Excluir foto</button></div>
-        <label class="field"><span>Título da aventura *</span><input id="adventureTitle" name="title" type="text" maxlength="80" placeholder="Ex.: Morro da Mesa ao amanhecer" required></label>
-        <div class="field-row"><label class="field"><span>Data</span><input id="adventureDate" name="adventureDate" type="date"></label><label class="field counter-field"><span>Descrição</span><em id="descriptionCount">0/280</em></label></div>
-        <label class="field description-field"><textarea id="adventureDescription" name="description" maxlength="280" rows="4" placeholder="Opcional: conte em poucas palavras como foi essa experiência."></textarea></label>
-        <input name="website" id="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <div class="moderation-line" id="moderationLine">✓ Conteúdo verificado antes da publicação.</div>
-        <button class="publish-button" id="publishButton" type="submit">Publicar</button>
-        <p class="form-error" id="formError" hidden></p>
-      </form>
-    </section>
-  </div>
-
-  <div class="modal-backdrop" id="adminModal" aria-hidden="true">
-    <section class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
-      <button class="icon-button close-admin" type="button" aria-label="Fechar">✕</button><div class="admin-icon">🔐</div><span class="eyebrow">ÁREA RESTRITA</span><h2 id="adminTitle">Modo Administrador</h2><p>Entre para moderar e excluir publicações.</p>
-      <label class="field"><span>Senha</span><input id="adminPassword" type="password" autocomplete="current-password" placeholder="Digite a senha"></label>
-      <button class="publish-button" id="adminLoginButton" type="button">Entrar</button><p class="form-error" id="adminError" hidden></p>
-    </section>
-  </div>
-
+  <div class="modal-backdrop" id="uploadModal" aria-hidden="true"><section class="modal-sheet" role="dialog" aria-modal="true" aria-labelledby="uploadTitle"><div class="modal-handle"></div><header class="modal-header"><div><span class="eyebrow">NOVA AVENTURA</span><h2 id="uploadTitle">Compartilhe sua experiência</h2></div><button class="icon-button close-modal" type="button" aria-label="Fechar">✕</button></header><form id="uploadForm" novalidate><div class="upload-preview" id="uploadPreview"><input id="photoInput" name="photo" type="file" accept="image/*,.heic,.heif" hidden required><button class="photo-picker" id="photoPicker" type="button"><span>📷</span><strong>Escolher foto</strong><small>Toque para selecionar do celular</small></button><img id="previewImage" alt="Prévia da foto" hidden></div><div class="preview-actions" id="previewActions" hidden><button type="button" id="changePhoto">Trocar foto</button><button type="button" id="removePhoto" class="danger-text">Excluir foto</button></div><label class="field"><span>Título da aventura *</span><input id="adventureTitle" name="title" type="text" maxlength="80" placeholder="Ex.: Morro da Mesa ao amanhecer" required></label><div class="field-row"><label class="field"><span>Data</span><input id="adventureDate" name="adventureDate" type="date"></label><label class="field counter-field"><span>Descrição</span><em id="descriptionCount">0/280</em></label></div><label class="field description-field"><textarea id="adventureDescription" name="description" maxlength="280" rows="4" placeholder="Opcional: conte em poucas palavras como foi essa experiência."></textarea></label><input name="website" id="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true"><div class="moderation-line" id="moderationLine">✓ Conteúdo verificado antes da publicação.</div><button class="publish-button" id="publishButton" type="submit">Publicar</button><p class="form-error" id="formError" hidden></p></form></section></div>
+  <div class="modal-backdrop" id="adminModal" aria-hidden="true"><section class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="adminTitle"><button class="icon-button close-admin" type="button" aria-label="Fechar">✕</button><div class="admin-icon">🔐</div><span class="eyebrow">ÁREA RESTRITA</span><h2 id="adminTitle">Modo Administrador</h2><p>Entre para moderar e excluir publicações.</p><label class="field"><span>Senha</span><input id="adminPassword" type="password" autocomplete="current-password" placeholder="Digite a senha"></label><button class="publish-button" id="adminLoginButton" type="button">Entrar</button><p class="form-error" id="adminError" hidden></p></section></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+  <script src="./sheet-hook.js"></script>
   <script src="./master.js" defer></script>
 </body>
 </html>
