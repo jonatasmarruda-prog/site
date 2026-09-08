@@ -2,6 +2,16 @@
   const $ = (s) => document.querySelector(s);
   let latestId = '';
   let adminBusy = false;
+  let latestRetry = 0;
+
+  /* Carrega o refinamento V5 depois do CSS anterior, sem depender de cache antigo. */
+  if (!document.querySelector('link[data-premium-v5]')) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = './premium-v5.css?v=5.1';
+    link.dataset.premiumV5 = 'true';
+    document.head.appendChild(link);
+  }
 
   const fmtDate = (iso) => {
     try { return new Intl.DateTimeFormat('pt-BR',{day:'2-digit',month:'long',year:'numeric'}).format(new Date(iso)); }
@@ -38,6 +48,31 @@
     });
   }
 
+  function showLatestImage(img, placeholder, latest){
+    if (!img) return;
+    const src = `/api/photo?id=${encodeURIComponent(latest.photoKey)}&v=${encodeURIComponent(latest.id)}`;
+    const preload = new Image();
+    preload.decoding = 'async';
+    preload.fetchPriority = 'high';
+    preload.onload = () => {
+      img.src = src;
+      img.alt = `Foto de ${latest.name} em ${latest.trip}`;
+      img.hidden = false;
+      if (placeholder) placeholder.hidden = true;
+      latestRetry = 0;
+    };
+    preload.onerror = () => {
+      if (latestRetry < 1) {
+        latestRetry++;
+        setTimeout(() => showLatestImage(img,placeholder,latest),700);
+      } else {
+        img.hidden = true;
+        if (placeholder) placeholder.hidden = false;
+      }
+    };
+    preload.src = src;
+  }
+
   async function refreshLatest(){
     const card = $('#latestCard');
     if (!card) return;
@@ -49,6 +84,8 @@
       const latest = posts[0];
       const img = $('#latestPhoto');
       const placeholder = $('#latestPlaceholder');
+
+      document.body.classList.toggle('has-latest-post',Boolean(latest));
 
       if (!latest) {
         latestId = '';
@@ -62,15 +99,13 @@
         return;
       }
 
-      if (placeholder) placeholder.hidden = true;
       if (img && latestId !== latest.id) {
         img.hidden = true;
-        img.src = `/api/photo?id=${encodeURIComponent(latest.photoKey)}&v=${encodeURIComponent(latest.id)}`;
-        img.alt = `Foto de ${latest.name} em ${latest.trip}`;
-        img.onload = () => { img.hidden = false; };
+        showLatestImage(img,placeholder,latest);
         latestId = latest.id;
-      } else if (img) {
+      } else if (img && img.src) {
         img.hidden = false;
+        if (placeholder) placeholder.hidden = true;
       }
 
       $('#latestTrip').textContent = latest.trip || 'GALERIA DOS TRILHEIROS';
@@ -132,26 +167,24 @@
   }
 
   const grid = $('#galleryGrid');
-  if (grid) {
-    new MutationObserver(() => setTimeout(normalizeAlbumCards,0)).observe(grid,{childList:true});
-  }
+  if (grid) new MutationObserver(() => setTimeout(normalizeAlbumCards,0)).observe(grid,{childList:true});
 
   const msg = $('#formMessage');
   if (msg) {
     new MutationObserver(() => {
       if (!msg.hidden && /publicad/i.test(msg.textContent || '')) {
-        setTimeout(refreshLatest,300);
-        setTimeout(normalizeAlbumCards,450);
+        setTimeout(refreshLatest,220);
+        setTimeout(normalizeAlbumCards,420);
       }
     }).observe(msg,{childList:true,subtree:true,attributes:true});
   }
 
-  $('#refreshBtn')?.addEventListener('click',()=>setTimeout(refreshLatest,180));
+  $('#refreshBtn')?.addEventListener('click',()=>setTimeout(refreshLatest,120));
   window.addEventListener('pageshow',()=>{refreshLatest();validateRestoredAdmin();});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden){refreshLatest();validateRestoredAdmin();}});
 
-  setTimeout(normalizeAlbumCards,250);
-  setTimeout(validateRestoredAdmin,300);
+  setTimeout(normalizeAlbumCards,200);
+  setTimeout(validateRestoredAdmin,250);
   refreshLatest();
-  setInterval(()=>{if(!document.hidden) refreshLatest();},30000);
+  setInterval(()=>{if(!document.hidden) refreshLatest();},15000);
 })();
