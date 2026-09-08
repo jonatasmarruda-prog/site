@@ -51,13 +51,15 @@
   function legacyMeta(post){
     const caption=String(post.caption||'');
     const hash=String(post.photoHash||'') || (caption.match(/\|hash:([a-f0-9]{64})$/i)?.[1]||'');
-    const date=post.adventureDate||post.date||caption.split('|hash:')[0]||'';
-    return {hash,date};
+    const ratingMatch=caption.match(/rating:([1-5])/i);
+    const datePart=caption.replace(/\|rating:[0-5]/i,'').replace(/\|hash:[a-f0-9]{64}$/i,'');
+    const date=post.adventureDate||post.date||datePart||'';
+    return {hash,date,rating:Number(ratingMatch?.[1])||0};
   }
   function normalizePost(post){
     const meta=legacyMeta(post);
     const genericName=['Galeria','Galeria dos Trilheiros'].includes(String(post.name||''))?'':String(post.name||'');
-    return {id:post.id,participantName:post.participantName||genericName||'Trilheiro(a)',location:post.location||post.title||post.trip||'Aventura dos Trilheiros',adventureDate:post.adventureDate||meta.date||'',description:post.description||'',rating:Number(post.rating)||0,photoKey:post.photoKey,photoHash:post.photoHash||meta.hash||'',createdAt:post.createdAt||''};
+    return {id:post.id,participantName:post.participantName||genericName||'Trilheiro(a)',location:post.location||post.title||post.trip||'Aventura dos Trilheiros',adventureDate:post.adventureDate||meta.date||'',description:post.description||'',rating:Number(post.rating)||meta.rating||0,photoKey:post.photoKey,photoHash:post.photoHash||meta.hash||'',createdAt:post.createdAt||''};
   }
   function dedupe(posts){const seen=new Set();return posts.filter(p=>{const key=p.photoHash||p.photoKey||p.id;if(!key||seen.has(key))return false;seen.add(key);return true;});}
   function renderFeatured(){
@@ -91,7 +93,7 @@
     try{
       const hash=await sha256(state.blob);
       if(state.posts.some(p=>p.photoHash&&p.photoHash===hash))throw new Error('Esta foto já foi publicada no mural.');
-      const form=new FormData();form.append('participantName',participantName);form.append('location',location);form.append('adventureDate',date);form.append('description',description);form.append('rating',rating?String(rating):'');form.append('photoHash',hash);form.append('website',$('#website').value);form.append('photo',state.blob,'foto.jpg');
+      const form=new FormData();form.append('participantName',participantName);form.append('location',location);form.append('name',participantName);form.append('trip',location);form.append('title',location);form.append('adventureDate',date);form.append('description',description);form.append('rating',rating?String(rating):'');form.append('caption',`${date}|rating:${rating||0}|hash:${hash}`);form.append('photoHash',hash);form.append('website',$('#website').value);form.append('photo',state.blob,'foto.jpg');
       const res=await fetch('/api/posts',{method:'POST',body:form});const data=await res.json().catch(()=>({}));if(!res.ok)throw new Error(data.message||'Não foi possível publicar.');
       e.target.reset();$('#descriptionCount').textContent='0/320';setRating(0);resetPhoto();closeModal($('#uploadModal'));showToast('Publicado com sucesso! ✨');await loadPosts();
     }catch(err){error.textContent=err.message||'Não foi possível publicar.';error.hidden=false;}
