@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
-  <link rel="stylesheet" href="./premium-v3.css">
+  <link rel="stylesheet" href="./premium-v4.css">
 </head>
 <body>
   <div class="bg-orb orb-1"></div>
@@ -34,19 +34,37 @@
     <section class="shell hero-grid">
       <div class="hero-copy reveal">
         <span class="hero-kicker">ÁLBUM OFICIAL DOS TRILHEIROS</span>
-        <h1>COMPARTILHE SUA<br><em>AVENTURA</em></h1>
-        <p class="hero-lead">Publique aqui sua foto, conte como foi o passeio e ajude a construir um álbum divertido para todos verem. 💚</p>
+        <h1>
+          <span class="line">COMPARTILHE</span>
+          <span class="line">SUA</span>
+          <em class="line">AVENTURA</em>
+        </h1>
+        <p class="hero-lead">Publique sua foto, conte como foi o passeio e ajude a construir um álbum divertido para todos verem. 💚</p>
+
         <div class="hero-bullets">
           <span>📸 foto do passeio</span>
           <span>✍️ sua experiência</span>
           <span>🛡️ filtro automático</span>
           <span>🌿 álbum da comunidade</span>
         </div>
+
         <div class="hero-buttons">
           <a class="btn btn-gold" href="#publicar">Compartilhar agora</a>
           <a class="btn btn-glass" href="#album">Ver álbum</a>
         </div>
+
+        <div class="hero-socials" aria-label="Redes sociais dos Trilheiros">
+          <a class="social-link instagram" href="https://www.instagram.com/trilheiros.roomt/" target="_blank" rel="noopener noreferrer" aria-label="Abrir Instagram dos Trilheiros">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.4" cy="6.7" r="1" fill="currentColor" stroke="none"></circle></svg>
+            <span>Instagram<small>@trilheiros.roomt</small></span>
+          </a>
+          <a class="social-link tiktok" href="https://www.tiktok.com/@trilheiros.roomt" target="_blank" rel="noopener noreferrer" aria-label="Abrir TikTok dos Trilheiros">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.4 3c.3 2.2 1.6 3.6 3.9 3.9v3.1c-1.5 0-2.8-.4-3.9-1.2v6.1a6 6 0 1 1-5.2-5.9v3.2a2.8 2.8 0 1 0 2 2.7V3h3.2z"/></svg>
+            <span>TikTok<small>@trilheiros.roomt</small></span>
+          </a>
+        </div>
       </div>
+
       <aside class="latest-stage reveal delay-1" aria-label="Última experiência publicada">
         <div class="latest-topline">
           <span class="latest-pulse"></span>
@@ -61,12 +79,11 @@
               <strong>O próximo destaque pode ser você.</strong>
               <span>Publique sua experiência e ela aparecerá aqui.</span>
             </div>
-            <span class="latest-badge">✨ DESTAQUE AGORA</span>
           </div>
           <div class="latest-content">
             <span class="latest-trip" id="latestTrip">GALERIA DOS TRILHEIROS</span>
             <h3 id="latestName">Compartilhe sua aventura</h3>
-            <p id="latestDescription">A publicação mais recente ficará em destaque aqui na abertura do site e também continuará no álbum abaixo.</p>
+            <p id="latestDescription">A publicação mais recente ficará em destaque aqui e continuará normalmente no álbum.</p>
             <div class="latest-meta">
               <span id="latestDate">Memórias que ficam</span>
               <a href="#album">Ver todas as fotos →</a>
@@ -86,9 +103,9 @@
           <p>Preencha seu nome, o nome do passeio, descreva como foi e carregue sua foto. Se escolher a imagem errada, você pode excluir antes de publicar.</p>
 
           <div class="feature-stack">
-            <article class="feature-item"><b>01</b><div><strong>Carregue qualquer foto comum do celular</strong><small>JPG, PNG, WEBP e HEIC.</small></div></article>
-            <article class="feature-item"><b>02</b><div><strong>Conte sua experiência</strong><small>Nome, passeio e descrição.</small></div></article>
-            <article class="feature-item"><b>03</b><div><strong>Publique no álbum</strong><small>A foto entra em um mural bonito para todos verem.</small></div></article>
+            <article class="feature-item"><b>01</b><div><strong>Carregue sua foto pelo celular</strong><small>JPG, PNG, WEBP e HEIC.</small></div></article>
+            <article class="feature-item"><b>02</b><div><strong>Conte como foi a experiência</strong><small>Nome, passeio e descrição.</small></div></article>
+            <article class="feature-item"><b>03</b><div><strong>Publique no álbum</strong><small>Seu momento entra na galeria para todos verem.</small></div></article>
           </div>
 
           <div class="trust-card">
@@ -119,10 +136,10 @@
                 <small>Toque para escolher uma imagem do celular</small>
               </button>
               <img id="photoPreview" alt="Prévia da foto escolhida" hidden>
-              <div class="photo-toolbar" id="photoOverlay" hidden>
-                <button type="button" id="changePhoto">↻ Trocar</button>
-                <button type="button" id="removePhoto" class="danger">✕ Excluir foto</button>
-              </div>
+            </div>
+            <div class="photo-toolbar" id="photoOverlay" hidden>
+              <button type="button" id="changePhoto">↻ Trocar</button>
+              <button type="button" id="removePhoto" class="danger">✕ Excluir foto</button>
             </div>
             <p class="photo-note">Se escolher a foto errada, toque em <b>Excluir foto</b> e selecione outra.</p>
           </div>
@@ -164,7 +181,7 @@
               <label for="description" class="field-label">Como foi sua experiência?</label>
               <span id="charCount">0/360</span>
             </div>
-            <textarea id="description" name="description" maxlength="360" rows="5" placeholder="Conte um pouco do que mais gostou, como foi a trilha, a paisagem, a turma, a emoção do passeio..." required></textarea>
+            <textarea id="description" name="description" maxlength="360" rows="5" placeholder="Conte um pouco do que mais gostou, como foi a trilha, a paisagem, a turma e a emoção do passeio..." required></textarea>
             <div class="moderation-status" id="moderationStatus">✓ Sua mensagem será verificada antes da publicação.</div>
           </div>
 
@@ -239,7 +256,16 @@
         <img src="https://i.postimg.cc/JnF2F9Hw/LOGO-TRILHEIROS-Photoroom.png" alt="Logo dos Trilheiros">
         <div><strong>Trilheiros de Rondonópolis</strong><span>Natureza • aventura • histórias para contar</span></div>
       </div>
-      <div class="footer-copy">Galeria oficial • @trilheiros.roomt</div>
+      <div class="footer-socials" aria-label="Redes sociais">
+        <a class="social-link instagram" href="https://www.instagram.com/trilheiros.roomt/" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.4" cy="6.7" r="1" fill="currentColor" stroke="none"></circle></svg>
+          <span>Instagram<small>@trilheiros.roomt</small></span>
+        </a>
+        <a class="social-link tiktok" href="https://www.tiktok.com/@trilheiros.roomt" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.4 3c.3 2.2 1.6 3.6 3.9 3.9v3.1c-1.5 0-2.8-.4-3.9-1.2v6.1a6 6 0 1 1-5.2-5.9v3.2a2.8 2.8 0 1 0 2 2.7V3h3.2z"/></svg>
+          <span>TikTok<small>@trilheiros.roomt</small></span>
+        </a>
+      </div>
     </div>
   </footer>
 
@@ -251,6 +277,6 @@
   <div class="toast" id="toast"></div>
   <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
   <script src="./app.js" defer></script>
-  <script src="./latest-v3.js" defer></script>
+  <script src="./premium-v4.js" defer></script>
 </body>
 </html>
