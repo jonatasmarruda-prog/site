@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/api/posts", "destination": "https://galeria-trilheiros.netlify.app/api/posts" },
+    { "source": "/api/photo", "destination": "https://galeria-trilheiros.netlify.app/api/photo" },
+    { "source": "/api/admin-check", "destination": "https://galeria-trilheiros.netlify.app/api/admin-check" }
+  ]
+}
