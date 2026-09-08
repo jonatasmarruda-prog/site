@@ -2,10 +2,18 @@
   const originalFetch = window.fetch.bind(window);
 
   window.fetch = async (input, init = {}) => {
+    let url = typeof input === 'string' ? input : input?.url || '';
+    const method = String(init?.method || 'GET').toUpperCase();
+
+    if (method === 'DELETE' && url.includes('/api/posts')) {
+      const query = url.includes('?') ? url.slice(url.indexOf('?')) : '';
+      url = '/api/admin-delete' + query;
+      input = url;
+    }
+
     const response = await originalFetch(input, init);
+
     try {
-      const url = typeof input === 'string' ? input : input?.url || '';
-      const method = String(init?.method || 'GET').toUpperCase();
       if (method === 'POST' && url.includes('/api/posts') && init.body instanceof FormData && response.ok) {
         const data = await response.clone().json();
         const form = init.body;
@@ -27,6 +35,7 @@
         }).catch(() => {});
       }
     } catch {}
+
     return response;
   };
 })();
