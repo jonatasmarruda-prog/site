@@ -3,106 +3,123 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#07140d">
-  <meta name="description" content="Galeria oficial dos Trilheiros de Rondonópolis. Compartilhe sua foto e conte como foi sua experiência.">
+  <meta name="theme-color" content="#08140d">
+  <meta name="description" content="Galeria oficial dos Trilheiros de Rondonópolis. Compartilhe sua foto e sua experiência com a turma.">
   <title>Galeria dos Trilheiros</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+
   <header class="hero" id="top">
-    <nav class="nav shell">
+    <nav class="shell topbar">
       <a class="brand" href="#top" aria-label="Galeria dos Trilheiros">
-        <img src="https://raw.githubusercontent.com/jonatasmarruda-prog/site/main/assets/logo-trilheiros.png" alt="Logo Trilheiros de Rondonópolis">
-        <div>
-          <strong>TRILHEIROS</strong>
-          <span>Rondonópolis • MT</span>
-        </div>
+        <span class="brand-badge"><img src="https://raw.githubusercontent.com/jonatasmarruda-prog/site/main/assets/logo-trilheiros.png" alt="Logo dos Trilheiros"></span>
+        <span class="brand-copy">
+          <strong>TRILHEIROS DE RONDONÓPOLIS</strong>
+          <small>GALERIA OFICIAL • MEMÓRIAS • EXPERIÊNCIAS</small>
+        </span>
       </a>
-      <a class="nav-action" href="#publicar">+ Adicionar foto</a>
+      <div class="top-actions">
+        <button class="admin-chip" id="adminToggle" type="button">🔐 Modo ADM</button>
+        <a class="hero-chip" href="#publicar">+ Publicar foto</a>
+      </div>
     </nav>
 
-    <div class="hero-content shell">
-      <div class="hero-copy">
-        <span class="eyebrow">GALERIA OFICIAL • PÓS-PASSEIO</span>
-        <h1>GALERIA DOS<br><em>TRILHEIROS</em></h1>
-        <p class="hero-lead">Compartilhe aqui sua experiência conosco.</p>
-        <p class="hero-sub">Escolha uma foto especial do passeio, escreva como foi viver essa aventura e publique no nosso álbum para todo mundo recordar junto. 💚</p>
-        <div class="hero-actions">
-          <a class="btn btn-gold" href="#publicar">📸 Compartilhar experiência</a>
-          <a class="btn btn-glass" href="#album">🖼️ Ver álbum</a>
+    <section class="shell hero-grid">
+      <div class="hero-copy reveal">
+        <span class="hero-kicker">ÁLBUM OFICIAL DOS TRILHEIROS</span>
+        <h1>COMPARTILHE SUA<br><em>AVENTURA</em></h1>
+        <p class="hero-lead">Publique aqui sua foto, conte como foi o passeio e ajude a construir um álbum divertido para todos verem. 💚</p>
+        <div class="hero-bullets">
+          <span>📸 foto do passeio</span>
+          <span>✍️ sua experiência</span>
+          <span>🛡️ filtro automático</span>
+          <span>🌿 álbum da comunidade</span>
+        </div>
+        <div class="hero-buttons">
+          <a class="btn btn-gold" href="#publicar">Compartilhar agora</a>
+          <a class="btn btn-glass" href="#album">Ver álbum</a>
         </div>
       </div>
-      <aside class="hero-album-card" aria-label="Prévia do álbum">
-        <div class="album-photo"></div>
-        <div class="album-note">
-          <span>MEMÓRIAS DA TRILHA</span>
-          <strong>Fotos que contam histórias.</strong>
-          <small>@trilheiros.roomt</small>
+
+      <aside class="hero-showcase reveal delay-1" aria-label="Prévia da galeria">
+        <div class="showcase-card main-card tilt-a">
+          <div class="showcase-photo photo-a"></div>
+          <div class="showcase-caption">
+            <span>EXPLORE • VIVA • RECORDE</span>
+            <strong>Fotos que viram histórias.</strong>
+          </div>
+        </div>
+        <div class="showcase-card side-card tilt-b">
+          <div class="showcase-photo photo-b"></div>
+          <div class="pin">@trilheiros.roomt</div>
         </div>
       </aside>
-    </div>
+    </section>
   </header>
 
   <main>
     <section class="share-section" id="publicar">
       <div class="shell share-layout">
-        <div class="share-intro">
-          <span class="section-kicker">COMPARTILHE SUA EXPERIÊNCIA</span>
-          <h2>Faça parte do nosso álbum de aventuras.</h2>
-          <p>Preencha as informações abaixo, carregue sua foto e publique. A imagem ficará anexada no álbum dos Trilheiros junto com seu nome, passeio e relato.</p>
+        <div class="share-intro reveal">
+          <span class="section-kicker">COMPARTILHE AQUI SUA EXPERIÊNCIA CONOSCO</span>
+          <h2>Seu momento merece entrar no álbum dos Trilheiros.</h2>
+          <p>Preencha seu nome, o nome do passeio, descreva como foi e carregue sua foto. Se escolher a imagem errada, você pode excluir antes de publicar.</p>
 
-          <div class="steps">
-            <div class="step"><b>01</b><span><strong>Escolha sua foto</strong><small>Uma lembrança especial do passeio.</small></span></div>
-            <div class="step"><b>02</b><span><strong>Conte como foi</strong><small>Nome, passeio e sua experiência.</small></span></div>
-            <div class="step"><b>03</b><span><strong>Publique no álbum</strong><small>Todo mundo poderá ver e compartilhar.</small></span></div>
+          <div class="feature-stack">
+            <article class="feature-item"><b>01</b><div><strong>Carregue qualquer foto comum do celular</strong><small>JPG, PNG, WEBP e HEIC.</small></div></article>
+            <article class="feature-item"><b>02</b><div><strong>Conte sua experiência</strong><small>Nome, passeio e descrição.</small></div></article>
+            <article class="feature-item"><b>03</b><div><strong>Publique no álbum</strong><small>A foto entra em um mural bonito para todos verem.</small></div></article>
           </div>
 
-          <div class="moderation-card">
-            <div class="moderation-icon">🛡️</div>
+          <div class="trust-card">
+            <div class="trust-icon">🛡️</div>
             <div>
-              <strong>Galeria com moderação automática</strong>
-              <p>Mensagens com palavrões, ofensas ou conteúdo depreciativo não são publicadas. Assim mantemos o álbum leve, respeitoso e positivo.</p>
+              <strong>Galeria moderada automaticamente</strong>
+              <p>Mensagens com palavrões, ofensas ou conteúdo negativo são bloqueadas antes da publicação.</p>
             </div>
           </div>
         </div>
 
-        <form class="post-form" id="postForm" novalidate>
-          <div class="form-top">
+        <form class="post-form reveal delay-1" id="postForm" novalidate>
+          <div class="form-heading">
             <div>
-              <span>MINHA PUBLICAÇÃO</span>
-              <h3>Compartilhe aqui sua experiência conosco</h3>
+              <span>PUBLICAR EXPERIÊNCIA</span>
+              <h3>Galeria dos Trilheiros</h3>
             </div>
-            <div class="filter-badge">✓ FILTRO ATIVO</div>
+            <div class="filter-pill">✓ filtro ativo</div>
           </div>
 
-          <div class="photo-field">
-            <label>Foto do passeio</label>
-            <div class="photo-frame" id="photoFrame">
+          <div class="photo-block">
+            <label class="field-label">Foto do passeio</label>
+            <div class="photo-shell" id="photoFrame">
               <input id="photo" name="photo" type="file" accept="image/*,.heic,.heif" hidden required>
-              <button class="photo-picker" id="photoPicker" type="button">
-                <span class="camera">📷</span>
+              <button class="picker-surface" id="photoPicker" type="button">
+                <span class="picker-icon">📷</span>
                 <strong>Carregar foto</strong>
                 <small>Toque para escolher uma imagem do celular</small>
               </button>
               <img id="photoPreview" alt="Prévia da foto escolhida" hidden>
-              <div class="photo-overlay" id="photoOverlay" hidden>
+              <div class="photo-toolbar" id="photoOverlay" hidden>
                 <button type="button" id="changePhoto">↻ Trocar</button>
                 <button type="button" id="removePhoto" class="danger">✕ Excluir foto</button>
               </div>
             </div>
-            <small class="photo-help">Aceita JPG, PNG, WEBP, HEIC e formatos comuns do celular.</small>
+            <p class="photo-note">Se escolher a foto errada, toque em <b>Excluir foto</b> e selecione outra.</p>
           </div>
 
-          <div class="form-grid">
+          <div class="field-grid">
             <div class="field">
-              <label for="name">Seu nome</label>
+              <label for="name" class="field-label">Seu nome</label>
               <input id="name" name="name" maxlength="50" autocomplete="name" placeholder="Ex.: Maria Fernanda" required>
             </div>
             <div class="field">
-              <label for="trip">Nome do passeio</label>
+              <label for="trip" class="field-label">Nome do passeio</label>
               <select id="trip" name="trip" required>
                 <option value="">Selecione o passeio...</option>
                 <option>Morro da Mesa</option>
@@ -124,25 +141,28 @@
           </div>
 
           <div class="field" id="customTripWrap" hidden>
-            <label for="customTrip">Digite o nome do passeio</label>
+            <label for="customTrip" class="field-label">Digite o nome do passeio</label>
             <input id="customTrip" maxlength="70" placeholder="Ex.: Cachoeira da Samambaia">
           </div>
 
           <div class="field">
-            <div class="field-label-row">
-              <label for="description">Como foi sua experiência?</label>
+            <div class="field-row">
+              <label for="description" class="field-label">Como foi sua experiência?</label>
               <span id="charCount">0/360</span>
             </div>
-            <textarea id="description" name="description" maxlength="360" rows="5" placeholder="Conte um pouco do que mais gostou, como foi o passeio, a paisagem, a turma..." required></textarea>
+            <textarea id="description" name="description" maxlength="360" rows="5" placeholder="Conte um pouco do que mais gostou, como foi a trilha, a paisagem, a turma, a emoção do passeio..." required></textarea>
             <div class="moderation-status" id="moderationStatus">✓ Sua mensagem será verificada antes da publicação.</div>
           </div>
 
           <div class="caption-card">
-            <div class="caption-title">
-              <div><span>✨ LEGENDA PARA REDES</span><strong>Quer uma legenda pronta?</strong></div>
+            <div class="caption-head">
+              <div>
+                <span>LEGENDA AUTOMÁTICA</span>
+                <strong>Pronta para postar nas redes</strong>
+              </div>
               <button type="button" id="generateCaption">Gerar legenda</button>
             </div>
-            <textarea id="caption" name="caption" maxlength="600" rows="4" placeholder="Opcional: gere uma legenda automática para compartilhar sua foto nas redes sociais."></textarea>
+            <textarea id="caption" name="caption" maxlength="600" rows="4" placeholder="Opcional: gere uma legenda bonita para Instagram ou WhatsApp."></textarea>
           </div>
 
           <input name="website" id="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -154,7 +174,7 @@
 
           <button class="publish-button" id="publishBtn" type="submit">
             <span>PUBLICAR NO ÁLBUM</span>
-            <small>Minha foto ficará disponível na Galeria dos Trilheiros</small>
+            <small>Sua foto ficará disponível na Galeria dos Trilheiros</small>
           </button>
 
           <div class="form-message" id="formMessage" hidden></div>
@@ -164,11 +184,11 @@
 
     <section class="album-section" id="album">
       <div class="shell">
-        <div class="album-header">
+        <div class="album-header reveal">
           <div>
-            <span class="section-kicker dark">NOSSO ÁLBUM 💚</span>
-            <h2>Momentos que viram histórias.</h2>
-            <p>Fotos e experiências compartilhadas por quem viveu uma aventura com os Trilheiros.</p>
+            <span class="section-kicker dark">NOSSO ÁLBUM DE AVENTURAS</span>
+            <h2>Fotos, memórias e histórias compartilhadas.</h2>
+            <p>Um mural divertido com as experiências vividas com os Trilheiros.</p>
           </div>
           <div class="album-stats">
             <div><strong id="postCount">0</strong><span>fotos</span></div>
@@ -176,16 +196,21 @@
           </div>
         </div>
 
-        <div class="album-toolbar">
+        <div class="toolbar reveal delay-1">
           <div class="search-box">🔎 <input id="search" placeholder="Buscar por nome ou passeio"></div>
           <select id="filterTrip"><option value="">Todos os passeios</option></select>
           <button id="refreshBtn" type="button">↻ Atualizar</button>
         </div>
 
+        <div class="admin-banner" id="adminBanner" hidden>
+          <span>🔐 Modo administrador ativo</span>
+          <button type="button" id="adminLogout">Sair do modo ADM</button>
+        </div>
+
         <div class="album-grid" id="galleryGrid"></div>
 
         <div class="empty-state" id="emptyState" hidden>
-          <div class="empty-icon">📷</div>
+          <div class="empty-icon">📸</div>
           <h3>O álbum está esperando a primeira história.</h3>
           <p>Publique uma foto do passeio e ajude a construir a memória dos Trilheiros.</p>
           <a class="btn btn-gold" href="#publicar">Adicionar minha foto</a>
@@ -197,7 +222,7 @@
   <footer>
     <div class="shell footer-inner">
       <div class="footer-brand">
-        <img src="https://raw.githubusercontent.com/jonatasmarruda-prog/site/main/assets/logo-trilheiros.png" alt="">
+        <img src="https://raw.githubusercontent.com/jonatasmarruda-prog/site/main/assets/logo-trilheiros.png" alt="Logo dos Trilheiros">
         <div><strong>Trilheiros de Rondonópolis</strong><span>Natureza • aventura • histórias para contar</span></div>
       </div>
       <div class="footer-copy">Galeria oficial • @trilheiros.roomt</div>
