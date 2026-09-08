@@ -1,40 +1,403 @@
 const $ = (s) => document.querySelector(s);
-const state = { file:null, processedBlob:null, previewUrl:"", posts:[], captionIndex:0 };
 
-const PROFANITY=["porra","caralho","merda","bosta","puta","puto","fdp","foda","foder","cacete","desgraca","desgraça","vai tomar no cu","tomar no cu","cuzao","cuzão","arrombado","idiota","imbecil","burro","otario","otário","babaca","vagabundo","vagabunda"];
-const NEGATIVE=["nao gostei","não gostei","nao recomendo","não recomendo","nunca mais","foi pessimo","foi péssimo","foi horrivel","foi horrível","muito ruim","horrivel","horrível","pessimo","péssimo","terrivel","terrível","decepcao","decepção","decepcionante","mal organizado","desorganizado","desorganizada","bagunca","bagunça","lixo","ridiculo","ridículo","vergonha","absurdo","enganacao","enganação","fraude","golpe","atendimento ruim","organizacao ruim","organização ruim","nao vale","não vale","arrependi","arrependimento","odiei","detestei"];
+const state = {
+  file: null,
+  processedBlob: null,
+  previewUrl: '',
+  posts: [],
+  captionIndex: 0,
+  adminMode: false,
+  adminKey: ''
+};
 
-function normalizeText(text=""){return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[0@]/g,"o").replace(/[1!]/g,"i").replace(/[3]/g,"e").replace(/[4]/g,"a").replace(/[5$]/g,"s").replace(/[^a-z0-9\s]/g," ").replace(/\s+/g," ").trim()}
-function moderateText(text){const raw=text.toLowerCase(),n=normalizeText(text);if(PROFANITY.some(t=>n.includes(normalizeText(t))))return{ok:false,reason:"A mensagem contém linguagem ofensiva. Ajuste o texto para publicar na galeria."};if(NEGATIVE.some(t=>n.includes(normalizeText(t))))return{ok:false,reason:"A mensagem foi identificada como negativa ou depreciativa. Conte sua experiência de forma respeitosa e positiva para publicar."};const patterns=[/\b(eles|voces|vocês|organizador|guia|grupo)\b.{0,30}\b(ruim|pessim|horrivel|incompetente|desorganizado|ridiculo)\b/i,/\b(reclamo|reclamacao|reclamação)\b/i];if(patterns.some(r=>r.test(raw)))return{ok:false,reason:"A mensagem parece conter ataque ou reclamação. Reescreva de forma respeitosa para publicar."};return{ok:true}}
-function showToast(msg){const el=$("#toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2200)}
-function showMessage(text,type){const el=$("#formMessage");el.hidden=false;el.className=`form-message ${type}`;el.textContent=text}
-function clearMessage(){$("#formMessage").hidden=true}
-function selectedTrip(){return $("#trip").value==="Outro"?$("#customTrip").value.trim():$("#trip").value}
+const PROFANITY = [
+  'porra','caralho','merda','bosta','puta','puto','fdp','foda','foder','cacete',
+  'desgraca','desgraça','vai tomar no cu','tomar no cu','cuzao','cuzão','arrombado',
+  'idiota','imbecil','burro','otario','otário','babaca','vagabundo','vagabunda'
+];
 
-$("#trip").addEventListener("change",()=>{$("#customTripWrap").hidden=$("#trip").value!=="Outro";updateModeration()});
-$("#description").addEventListener("input",()=>{$("#charCount").textContent=`${$("#description").value.length}/360`;updateModeration()});
-["name","customTrip","caption"].forEach(id=>$("#"+id)?.addEventListener("input",updateModeration));
-function updateModeration(){const text=[$("#name").value,selectedTrip(),$("#description").value,$("#caption").value].join(" ");const result=moderateText(text);const el=$("#moderationStatus");if(!text.trim()){el.className="moderation-status";el.textContent="✓ Sua mensagem será verificada antes da publicação."}else if(result.ok){el.className="moderation-status";el.textContent="✓ Linguagem adequada para a galeria."}else{el.className="moderation-status blocked";el.textContent="⚠ "+result.reason}}
+const NEGATIVE_PHRASES = [
+  'nao gostei','não gostei','nao recomendo','não recomendo','nunca mais','foi pessimo','foi péssimo',
+  'foi horrivel','foi horrível','muito ruim','horrivel','horrível','pessimo','péssimo','terrivel','terrível',
+  'decepcao','decepção','decepcionante','mal organizado','desorganizado','desorganizada','bagunca','bagunça',
+  'lixo','ridiculo','ridículo','vergonha','absurdo','enganacao','enganação','fraude','golpe','atendimento ruim',
+  'organização ruim','organizacao ruim','nao vale','não vale','arrependi','arrependimento'
+];
 
-async function loadAsImage(file){if(/heic|heif/i.test(file.type)||/\.(heic|heif)$/i.test(file.name)){if(!window.heic2any)throw new Error("Conversor HEIC indisponível");const converted=await heic2any({blob:file,toType:"image/jpeg",quality:.9});file=Array.isArray(converted)?converted[0]:converted}if("createImageBitmap" in window){try{return await createImageBitmap(file,{imageOrientation:"from-image"})}catch{}}const url=URL.createObjectURL(file);const img=await new Promise((resolve,reject)=>{const el=new Image();el.onload=()=>resolve(el);el.onerror=reject;el.src=url});URL.revokeObjectURL(url);return img}
-async function processPhoto(file){if(!file)throw new Error("Escolha uma foto.");const image=await loadAsImage(file);const max=1800,ratio=Math.min(1,max/Math.max(image.width,image.height)),w=Math.max(1,Math.round(image.width*ratio)),h=Math.max(1,Math.round(image.height*ratio));const canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;const ctx=canvas.getContext("2d",{alpha:false});ctx.fillStyle="#fff";ctx.fillRect(0,0,w,h);ctx.drawImage(image,0,0,w,h);if(image.close)try{image.close()}catch{}const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/jpeg",.86));if(!blob)throw new Error("Não foi possível preparar a foto.");return blob}
+function normalizeText(text = '') {
+  return text.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[0@]/g, 'o').replace(/[1!]/g, 'i').replace(/[3]/g, 'e')
+    .replace(/[4]/g, 'a').replace(/[5$]/g, 's')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ').trim();
+}
 
-async function choosePhoto(file){clearMessage();try{$("#photoPicker").innerHTML='<span class="camera">⏳</span><strong>Preparando a foto...</strong><small>Aguarde um instante</small>';const blob=await processPhoto(file);state.file=file;state.processedBlob=blob;if(state.previewUrl)URL.revokeObjectURL(state.previewUrl);state.previewUrl=URL.createObjectURL(blob);$("#photoPreview").src=state.previewUrl;$("#photoPreview").hidden=false;$("#photoPicker").hidden=true;$("#photoOverlay").hidden=false;showToast("Foto adicionada ao álbum 📸")}catch(err){console.error(err);resetPhoto();showMessage("Não consegui abrir essa foto. Tente selecionar outra imagem do celular.","error")}}
-function resetPhoto(){if(state.previewUrl)URL.revokeObjectURL(state.previewUrl);state.file=null;state.processedBlob=null;state.previewUrl="";$("#photo").value="";$("#photoPreview").hidden=true;$("#photoPreview").removeAttribute("src");$("#photoOverlay").hidden=true;$("#photoPicker").hidden=false;$("#photoPicker").innerHTML='<span class="camera">📷</span><strong>Carregar foto</strong><small>Toque para escolher uma imagem do celular</small>'}
-$("#photoPicker").addEventListener("click",()=>$("#photo").click());
-$("#photo").addEventListener("change",e=>choosePhoto(e.target.files?.[0]));
-$("#changePhoto").addEventListener("click",()=>$("#photo").click());
-$("#removePhoto").addEventListener("click",()=>{resetPhoto();showToast("Foto removida. Escolha outra quando quiser.")});
+function moderateText(text) {
+  const raw = text.toLowerCase();
+  const n = normalizeText(text);
+  const prof = PROFANITY.find(term => n.includes(normalizeText(term)));
+  if (prof) return { ok:false, reason:'A mensagem contém linguagem ofensiva. Ajuste o texto para publicar na galeria.' };
 
-function buildCaption(){const name=$("#name").value.trim()||"Mais um trilheiro",trip=selectedTrip()||"essa aventura",desc=$("#description").value.trim();const t=[`🌿✨ ${name} viveu uma experiência especial em ${trip} com os Trilheiros de Rondonópolis! ${desc?desc+" ":""}Mais uma história para guardar na memória. 🥾💚\n\n#TrilheirosDeRondonopolis #Natureza #Aventura`,`🥾💚 Mais uma aventura vivida! ${name} esteve em ${trip} e compartilhou esse momento com a nossa galera. ${desc?desc+" ":""}Porque cada trilha deixa uma lembrança diferente. 🌄✨\n\n@trilheiros.roomt`,`📸 Uma foto que conta uma história: ${name} em ${trip}. ${desc?desc+" ":""}Natureza, boas companhias e experiências que ficam para sempre. 🌿🏞️\n\nTrilheiros de Rondonópolis • Aqui ninguém vai só.`];$("#caption").value=t[state.captionIndex++%t.length].slice(0,600);updateModeration()}
-$("#generateCaption").addEventListener("click",buildCaption);
+  const negative = NEGATIVE_PHRASES.find(term => n.includes(normalizeText(term)));
+  if (negative) return { ok:false, reason:'A mensagem foi identificada como negativa ou depreciativa. Conte sua experiência de forma respeitosa e positiva para publicar.' };
 
-$("#postForm").addEventListener("submit",async e=>{e.preventDefault();clearMessage();const name=$("#name").value.trim(),trip=selectedTrip(),description=$("#description").value.trim();let caption=$("#caption").value.trim();if(!state.processedBlob)return showMessage("Carregue uma foto antes de publicar.","error");if(!name||!trip||!description)return showMessage("Preencha seu nome, o passeio e conte como foi sua experiência.","error");if(!$("#consent").checked)return showMessage("Confirme a autorização para exibir a foto na galeria.","error");if(!caption){buildCaption();caption=$("#caption").value.trim()}const moderation=moderateText([name,trip,description,caption].join(" "));if(!moderation.ok)return showMessage(moderation.reason,"error");const btn=$("#publishBtn");btn.disabled=true;btn.querySelector("span").textContent="PUBLICANDO...";try{const form=new FormData();form.append("name",name);form.append("trip",trip);form.append("description",description);form.append("caption",caption);form.append("website",$("#website").value);form.append("photo",state.processedBlob,"foto.jpg");const res=await fetch("/api/posts",{method:"POST",body:form});const data=await res.json().catch(()=>({}));if(!res.ok)throw new Error(data.message||"Não foi possível publicar agora.");showMessage("Foto publicada com sucesso! 💚 Ela já está no álbum dos Trilheiros.","success");showToast("Publicado no álbum ✨");e.target.reset();$("#customTripWrap").hidden=true;$("#charCount").textContent="0/360";resetPhoto();updateModeration();await loadPosts();location.hash="#album"}catch(err){console.error(err);showMessage(err.message||"Não foi possível publicar agora. Tente novamente.","error")}finally{btn.disabled=false;btn.querySelector("span").textContent="PUBLICAR NO ÁLBUM"}});
+  const patterns = [
+    /\b(eles|voces|vocês|organizador|guia|grupo)\b.{0,30}\b(ruim|pessim|horrivel|incompetente|desorganizado|ridiculo)\b/i,
+    /\b(odiei|detestei|reclamo|reclamacao|reclamação)\b/i
+  ];
+  if (patterns.some(r => r.test(raw))) {
+    return { ok:false, reason:'A mensagem parece conter ataque ou reclamação. Reescreva de forma respeitosa e positiva para compartilhar na galeria.' };
+  }
+  return { ok:true };
+}
 
-function escapeHtml(str=""){return str.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function formatDate(iso){try{return new Intl.DateTimeFormat("pt-BR",{day:"2-digit",month:"short",year:"numeric"}).format(new Date(iso))}catch{return""}}
-function renderPosts(){const grid=$("#galleryGrid"),q=normalizeText($("#search").value),filter=$("#filterTrip").value;const posts=state.posts.filter(p=>{const hay=normalizeText(`${p.name} ${p.trip} ${p.description}`);return(!q||hay.includes(q))&&(!filter||p.trip===filter)});grid.innerHTML="";$("#emptyState").hidden=posts.length!==0;posts.forEach(p=>{const card=document.createElement("article");card.className="album-item";card.innerHTML=`<div class="album-image"><img loading="lazy" src="/api/photo?id=${encodeURIComponent(p.photoKey)}" alt="Foto de ${escapeHtml(p.name)} em ${escapeHtml(p.trip)}"><span class="trip-tag">${escapeHtml(p.trip)}</span></div><div class="album-body"><div class="album-meta"><span class="album-author">${escapeHtml(p.name)}</span><span class="album-date">${formatDate(p.createdAt)}</span></div><p class="album-description">${escapeHtml(p.description)}</p>${p.caption?`<div class="album-caption">${escapeHtml(p.caption).replace(/\n/g,"<br>")}</div>`:""}<div class="album-actions"><span class="album-stamp">✓ memória compartilhada</span><button class="share-item" type="button">↗ Compartilhar</button></div></div>`;card.querySelector(".share-item").addEventListener("click",()=>sharePost(p));grid.appendChild(card)})}
-async function sharePost(p){const text=p.caption||`🌿 ${p.name} compartilhou sua experiência em ${p.trip} com os Trilheiros de Rondonópolis.`;try{const r=await fetch(`/api/photo?id=${encodeURIComponent(p.photoKey)}`),blob=await r.blob(),file=new File([blob],"experiencia-trilheiros.jpg",{type:blob.type||"image/jpeg"});if(navigator.canShare?.({files:[file]})){await navigator.share({title:`${p.trip} • Trilheiros`,text,files:[file]});return}}catch{}if(navigator.share)await navigator.share({title:`${p.trip} • Trilheiros`,text,url:location.href});else{await navigator.clipboard.writeText(text+"\n"+location.href);showToast("Legenda copiada ✨")}}
-function updateFilters(){const trips=[...new Set(state.posts.map(p=>p.trip).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"pt-BR")),sel=$("#filterTrip"),cur=sel.value;sel.innerHTML='<option value="">Todos os passeios</option>'+trips.map(t=>`<option>${escapeHtml(t)}</option>`).join("");if(trips.includes(cur))sel.value=cur;$("#postCount").textContent=state.posts.length;$("#tripCount").textContent=trips.length}
-async function loadPosts(){const grid=$("#galleryGrid");grid.innerHTML='<div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>';$("#emptyState").hidden=true;try{const res=await fetch("/api/posts",{headers:{Accept:"application/json"},cache:"no-store"});if(!res.ok)throw new Error("Falha ao carregar");const data=await res.json();state.posts=Array.isArray(data.posts)?data.posts:[];updateFilters();renderPosts()}catch(err){console.error(err);grid.innerHTML="";$("#emptyState").hidden=false;$("#emptyState h3").textContent="O álbum está sendo preparado.";$("#emptyState p").textContent="Recarregue a página em alguns instantes."}}
-$("#search").addEventListener("input",renderPosts);$("#filterTrip").addEventListener("change",renderPosts);$("#refreshBtn").addEventListener("click",loadPosts);updateModeration();loadPosts();
+function showToast(msg) {
+  const el = $('#toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2300);
+}
+
+function showMessage(text, type) {
+  const el = $('#formMessage');
+  el.hidden = false;
+  el.className = `form-message ${type}`;
+  el.textContent = text;
+}
+
+function clearMessage() { $('#formMessage').hidden = true; }
+function selectedTrip() { return $('#trip').value === 'Outro' ? $('#customTrip').value.trim() : $('#trip').value; }
+
+function updateModeration() {
+  const text = [$('#name').value, selectedTrip(), $('#description').value, $('#caption').value].join(' ');
+  const result = moderateText(text);
+  const el = $('#moderationStatus');
+  if (!text.trim()) {
+    el.className = 'moderation-status';
+    el.textContent = '✓ Sua mensagem será verificada antes da publicação.';
+  } else if (result.ok) {
+    el.className = 'moderation-status';
+    el.textContent = '✓ Linguagem adequada para a galeria.';
+  } else {
+    el.className = 'moderation-status blocked';
+    el.textContent = '⚠ ' + result.reason;
+  }
+}
+
+$('#trip').addEventListener('change', () => {
+  $('#customTripWrap').hidden = $('#trip').value !== 'Outro';
+  updateModeration();
+});
+
+$('#description').addEventListener('input', () => {
+  $('#charCount').textContent = `${$('#description').value.length}/360`;
+  updateModeration();
+});
+
+['name','customTrip','caption'].forEach(id => $('#'+id)?.addEventListener('input', updateModeration));
+
+async function loadAsImage(file) {
+  if (/heic|heif/i.test(file.type) || /\.(heic|heif)$/i.test(file.name)) {
+    if (!window.heic2any) throw new Error('Conversor HEIC indisponível');
+    const converted = await heic2any({ blob:file, toType:'image/jpeg', quality:.9 });
+    file = Array.isArray(converted) ? converted[0] : converted;
+  }
+  if ('createImageBitmap' in window) {
+    try { return await createImageBitmap(file, { imageOrientation:'from-image' }); } catch {}
+  }
+  const url = URL.createObjectURL(file);
+  const img = await new Promise((resolve, reject) => {
+    const el = new Image();
+    el.onload = () => resolve(el);
+    el.onerror = reject;
+    el.src = url;
+  });
+  URL.revokeObjectURL(url);
+  return img;
+}
+
+async function processPhoto(file) {
+  if (!file) throw new Error('Escolha uma foto.');
+  const image = await loadAsImage(file);
+  const max = 1800;
+  const ratio = Math.min(1, max / Math.max(image.width, image.height));
+  const w = Math.max(1, Math.round(image.width * ratio));
+  const h = Math.max(1, Math.round(image.height * ratio));
+  const canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext('2d', { alpha:false });
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0,0,w,h);
+  ctx.drawImage(image,0,0,w,h);
+  if (image.close) try { image.close(); } catch {}
+  const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', .86));
+  if (!blob) throw new Error('Não foi possível preparar a foto.');
+  return blob;
+}
+
+async function choosePhoto(file) {
+  clearMessage();
+  try {
+    $('#photoPicker').innerHTML = '<span class="picker-icon">⏳</span><strong>Preparando a foto...</strong><small>Aguarde um instante</small>';
+    const blob = await processPhoto(file);
+    state.file = file;
+    state.processedBlob = blob;
+    if (state.previewUrl) URL.revokeObjectURL(state.previewUrl);
+    state.previewUrl = URL.createObjectURL(blob);
+    $('#photoPreview').src = state.previewUrl;
+    $('#photoPreview').hidden = false;
+    $('#photoPicker').hidden = true;
+    $('#photoOverlay').hidden = false;
+    showToast('Foto pronta para publicar 📸');
+  } catch (err) {
+    console.error(err);
+    resetPhoto();
+    showMessage('Não consegui abrir essa foto. Tente selecionar outra imagem do celular.','error');
+  }
+}
+
+function resetPhoto() {
+  if (state.previewUrl) URL.revokeObjectURL(state.previewUrl);
+  state.file = null;
+  state.processedBlob = null;
+  state.previewUrl = '';
+  $('#photo').value = '';
+  $('#photoPreview').hidden = true;
+  $('#photoPreview').removeAttribute('src');
+  $('#photoOverlay').hidden = true;
+  $('#photoPicker').hidden = false;
+  $('#photoPicker').innerHTML = '<span class="picker-icon">📷</span><strong>Carregar foto</strong><small>Toque para escolher uma imagem do celular</small>';
+}
+
+$('#photoPicker').addEventListener('click', () => $('#photo').click());
+$('#photo').addEventListener('change', e => choosePhoto(e.target.files?.[0]));
+$('#changePhoto').addEventListener('click', () => $('#photo').click());
+$('#removePhoto').addEventListener('click', () => {
+  resetPhoto();
+  showToast('Foto removida. Escolha outra quando quiser.');
+});
+
+function buildCaption() {
+  const name = $('#name').value.trim() || 'Mais um trilheiro';
+  const trip = selectedTrip() || 'essa aventura';
+  const desc = $('#description').value.trim();
+  const templates = [
+    `🌿✨ ${name} viveu uma experiência especial em ${trip} com os Trilheiros de Rondonópolis! ${desc ? desc + ' ' : ''}Mais uma história para guardar na memória. 🥾💚\n\n#TrilheirosDeRondonopolis #Natureza #Aventura`,
+    `🥾💚 Mais uma aventura vivida! ${name} esteve em ${trip} e compartilhou esse momento com a nossa galera. ${desc ? desc + ' ' : ''}Porque cada trilha deixa uma lembrança diferente. 🌄✨\n\n@trilheiros.roomt`,
+    `📸 Uma foto que conta uma história: ${name} em ${trip}. ${desc ? desc + ' ' : ''}Natureza, boas companhias e experiências que ficam para sempre. 🌿🏞️\n\nTrilheiros de Rondonópolis • Aqui ninguém vai só.`
+  ];
+  $('#caption').value = templates[state.captionIndex++ % templates.length].slice(0,600);
+  updateModeration();
+}
+
+$('#generateCaption').addEventListener('click', buildCaption);
+
+$('#postForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  clearMessage();
+  const name = $('#name').value.trim();
+  const trip = selectedTrip();
+  const description = $('#description').value.trim();
+  let caption = $('#caption').value.trim();
+
+  if (!state.processedBlob) return showMessage('Carregue uma foto antes de publicar.','error');
+  if (!name || !trip || !description) return showMessage('Preencha seu nome, o passeio e conte como foi sua experiência.','error');
+  if (!$('#consent').checked) return showMessage('Confirme a autorização para exibir a foto na galeria.','error');
+  if (!caption) { buildCaption(); caption = $('#caption').value.trim(); }
+
+  const moderation = moderateText([name,trip,description,caption].join(' '));
+  if (!moderation.ok) return showMessage(moderation.reason,'error');
+
+  const btn = $('#publishBtn');
+  btn.disabled = true;
+  btn.querySelector('span').textContent = 'PUBLICANDO...';
+  try {
+    const form = new FormData();
+    form.append('name', name);
+    form.append('trip', trip);
+    form.append('description', description);
+    form.append('caption', caption);
+    form.append('website', $('#website').value);
+    form.append('photo', state.processedBlob, 'foto.jpg');
+
+    const res = await fetch('/api/posts', { method:'POST', body:form });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || 'Não foi possível publicar agora.');
+
+    showMessage('Foto publicada com sucesso! 💚 Ela já está no álbum dos Trilheiros.','success');
+    showToast('Publicado no álbum ✨');
+    e.target.reset();
+    $('#customTripWrap').hidden = true;
+    $('#charCount').textContent = '0/360';
+    resetPhoto();
+    updateModeration();
+    await loadPosts();
+    location.hash = '#album';
+  } catch (err) {
+    console.error(err);
+    showMessage(err.message || 'Não foi possível publicar agora. Tente novamente.','error');
+  } finally {
+    btn.disabled = false;
+    btn.querySelector('span').textContent = 'PUBLICAR NO ÁLBUM';
+  }
+});
+
+function escapeHtml(str = '') {
+  return str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function formatDate(iso) {
+  try { return new Intl.DateTimeFormat('pt-BR',{day:'2-digit',month:'short',year:'numeric'}).format(new Date(iso)); }
+  catch { return ''; }
+}
+
+async function sharePost(p) {
+  const text = p.caption || `🌿 ${p.name} compartilhou sua experiência em ${p.trip} com os Trilheiros de Rondonópolis.`;
+  try {
+    const r = await fetch(`/api/photo?id=${encodeURIComponent(p.photoKey)}`);
+    const blob = await r.blob();
+    const file = new File([blob], 'experiencia-trilheiros.jpg', { type:blob.type || 'image/jpeg' });
+    if (navigator.canShare?.({files:[file]})) {
+      await navigator.share({ title:`${p.trip} • Trilheiros`, text, files:[file] });
+      return;
+    }
+  } catch {}
+  if (navigator.share) await navigator.share({ title:`${p.trip} • Trilheiros`, text, url:location.href });
+  else {
+    await navigator.clipboard.writeText(text + '\n' + location.href);
+    showToast('Legenda copiada ✨');
+  }
+}
+
+async function deletePost(post) {
+  if (!state.adminMode || !state.adminKey) return showToast('Ative o modo ADM para excluir.');
+  if (!confirm(`Excluir a foto de ${post.name} em ${post.trip}?`)) return;
+  try {
+    const res = await fetch(`/api/posts?id=${encodeURIComponent(post.id)}`, {
+      method:'DELETE',
+      headers:{'x-admin-key':state.adminKey}
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || 'Não foi possível excluir.');
+    state.posts = state.posts.filter(item => item.id !== post.id);
+    updateFilters();
+    renderPosts();
+    showToast('Foto excluída do álbum.');
+  } catch (err) {
+    console.error(err);
+    showToast(err.message || 'Erro ao excluir.');
+  }
+}
+
+function renderPosts() {
+  const grid = $('#galleryGrid');
+  const q = normalizeText($('#search').value);
+  const filter = $('#filterTrip').value;
+  const posts = state.posts.filter(p => {
+    const hay = normalizeText(`${p.name} ${p.trip} ${p.description}`);
+    return (!q || hay.includes(q)) && (!filter || p.trip === filter);
+  });
+
+  grid.innerHTML = '';
+  $('#emptyState').hidden = posts.length !== 0;
+
+  posts.forEach(p => {
+    const card = document.createElement('article');
+    card.className = 'album-item';
+    card.innerHTML = `
+      <div class="album-image">
+        <img loading="lazy" src="/api/photo?id=${encodeURIComponent(p.photoKey)}" alt="Foto de ${escapeHtml(p.name)} em ${escapeHtml(p.trip)}">
+        <span class="trip-tag">${escapeHtml(p.trip)}</span>
+      </div>
+      <div class="album-body">
+        <div class="album-meta">
+          <span class="album-author">${escapeHtml(p.name)}</span>
+          <span class="album-date">${formatDate(p.createdAt)}</span>
+        </div>
+        <p class="album-description">${escapeHtml(p.description)}</p>
+        ${p.caption ? `<div class="album-caption">${escapeHtml(p.caption).replace(/\n/g,'<br>')}</div>` : ''}
+        <div class="album-actions">
+          <span class="album-stamp">✓ memória compartilhada</span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="share-item" type="button">↗ Compartilhar</button>
+            ${state.adminMode ? '<button class="delete-item" type="button">🗑 Excluir</button>' : ''}
+          </div>
+        </div>
+      </div>`;
+    card.querySelector('.share-item').addEventListener('click', () => sharePost(p));
+    if (state.adminMode) card.querySelector('.delete-item')?.addEventListener('click', () => deletePost(p));
+    grid.appendChild(card);
+  });
+}
+
+function updateFilters() {
+  const trips = [...new Set(state.posts.map(p => p.trip).filter(Boolean))].sort((a,b) => a.localeCompare(b,'pt-BR'));
+  const sel = $('#filterTrip');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">Todos os passeios</option>' + trips.map(t => `<option>${escapeHtml(t)}</option>`).join('');
+  if (trips.includes(cur)) sel.value = cur;
+  $('#postCount').textContent = state.posts.length;
+  $('#tripCount').textContent = trips.length;
+}
+
+async function loadPosts() {
+  const grid = $('#galleryGrid');
+  grid.innerHTML = '<div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>';
+  $('#emptyState').hidden = true;
+  try {
+    const res = await fetch('/api/posts', { headers:{Accept:'application/json'}, cache:'no-store' });
+    if (!res.ok) throw new Error('Falha ao carregar');
+    const data = await res.json();
+    state.posts = Array.isArray(data.posts) ? data.posts : [];
+    updateFilters();
+    renderPosts();
+  } catch (err) {
+    console.error(err);
+    grid.innerHTML = '';
+    $('#emptyState').hidden = false;
+    $('#emptyState h3').textContent = 'O álbum está sendo preparado.';
+    $('#emptyState p').textContent = 'Recarregue a página em alguns instantes.';
+  }
+}
+
+$('#search').addEventListener('input', renderPosts);
+$('#filterTrip').addEventListener('change', renderPosts);
+$('#refreshBtn').addEventListener('click', loadPosts);
+
+function setAdminMode(enabled, key = '') {
+  state.adminMode = enabled;
+  state.adminKey = key;
+  $('#adminBanner').hidden = !enabled;
+  $('#adminToggle').classList.toggle('active', enabled);
+  $('#adminToggle').textContent = enabled ? '🔓 ADM ativo' : '🔐 Modo ADM';
+  if (enabled) sessionStorage.setItem('trilheiros-admin-key', key);
+  else sessionStorage.removeItem('trilheiros-admin-key');
+  renderPosts();
+}
+
+$('#adminToggle').addEventListener('click', () => {
+  if (state.adminMode) {
+    setAdminMode(false);
+    showToast('Modo ADM desativado.');
+    return;
+  }
+  const key = prompt('Digite a chave do administrador para ativar a exclusão de fotos:');
+  if (!key) return;
+  setAdminMode(true, key.trim());
+  showToast('Modo ADM ativado.');
+});
+
+$('#adminLogout').addEventListener('click', () => {
+  setAdminMode(false);
+  showToast('Modo ADM desativado.');
+});
+
+(function restoreAdmin() {
+  const saved = sessionStorage.getItem('trilheiros-admin-key');
+  if (saved) setAdminMode(true, saved);
+})();
+
+updateModeration();
+loadPosts();
