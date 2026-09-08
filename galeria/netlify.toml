@@ -1,4 +1,4 @@
-# Galeria Trilheiros • Premium Master
+# Galeria Trilheiros • Premium Master • deploy final
 [build]
   publish = "."
   functions = "netlify/functions"
