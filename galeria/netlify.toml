@@ -1,4 +1,4 @@
-# Galeria Trilheiros • Premium Master • deploy final
+# Galeria Trilheiros • Premium Master • deploy refresh 2026-09-08 22:20
 [build]
   publish = "."
   functions = "netlify/functions"
