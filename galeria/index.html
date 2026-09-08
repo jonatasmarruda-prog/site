@@ -1,17 +1,211 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#07140d"><title>Galeria dos Trilheiros</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07140d">
+  <meta name="description" content="Galeria oficial dos Trilheiros de Rondonópolis. Compartilhe sua foto e conte como foi sua experiência.">
+  <title>Galeria dos Trilheiros</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<header class="hero"><nav class="nav shell"><a class="brand" href="#top"><img src="https://raw.githubusercontent.com/jonatasmarruda-prog/site/main/assets/logo-trilheiros.png" alt="Logo Trilheiros"><span><b>TRILHEIROS</b><small>Rondonópolis • MT</small></span></a><a class="navbtn" href="#publicar">+ Compartilhar experiência</a></nav><div class="heroGrid shell" id="top"><div><span class="eyebrow">GALERIA OFICIAL • PÓS-PASSEIO</span><h1>VIVEU A AVENTURA?<br><span>CONTE SUA HISTÓRIA.</span></h1><p>Compartilhe aqui sua experiência com os Trilheiros. Escolha uma foto, conte como foi o passeio e publique na nossa galeria.</p><div class="actions"><a class="btn primary" href="#publicar">📸 Publicar minha experiência</a><a class="btn ghost" href="#galeria">🌿 Ver galeria</a></div><div class="trust"><span>🛡️ Moderação automática</span><span>📱 Feito para celular</span><span>✨ Legenda automática</span></div></div><div class="heroCard"><div class="heroPhoto"></div><div class="heroCardCopy"><small>MEMÓRIAS QUE FICAM</small><strong>Uma foto.<br>Uma experiência.<br>Uma história.</strong></div></div></div></header>
-<main><section class="publish" id="publicar"><div class="publishGrid shell"><div class="copy"><span class="kicker">SUA VEZ 🥾</span><h2>Compartilhe sua experiência com os Trilheiros</h2><p>Preencha os dados, carregue sua melhor foto e conte como foi. Antes de publicar, o site verifica automaticamente a linguagem da mensagem.</p><div class="rules"><b>Para manter a galeria leve e positiva:</b><ul><li>Sem palavrões ou ofensas.</li><li>Sem ataques pessoais ou mensagens depreciativas.</li><li>Conte sua experiência com respeito.</li><li>Publique somente fotos que você pode compartilhar.</li></ul></div></div><form class="form" id="postForm"><div class="formHead"><div><span>PUBLICAR NA GALERIA</span><h3>Minha experiência</h3></div><div class="pill">✓ filtro ativo</div></div><label class="upload"><input id="photo" type="file" accept="image/*,.heic,.heif" hidden required><div class="uploadEmpty" id="uploadEmpty"><div class="ico">📷</div><b>Toque para escolher sua foto</b><span>JPG, PNG, WEBP, HEIC e formatos comuns do celular</span></div><img id="photoPreview" hidden alt="Prévia"><button class="change" id="changePhoto" type="button" hidden>Trocar foto</button></label><div class="two"><div class="field"><label>Seu nome</label><input id="name" maxlength="50" placeholder="Ex.: Maria Fernanda" required></div><div class="field"><label>Passeio / trilha</label><select id="trip" required><option value="">Selecione...</option><option>Morro da Mesa</option><option>Barra do Garças</option><option>Nobres – Bom Jardim</option><option>Salto das Nuvens</option><option>Rio Cristalino</option><option>Cânion das Índias</option><option>Águas da Mata</option><option>Salto Paraguassu</option><option>Lagoa Azul</option><option>Mirante da Janela</option><option>Vila Bela</option><option>Tesouro</option><option>Boia Cross</option><option value="Outro">Outro passeio</option></select></div></div><div class="field" id="customWrap" hidden><label>Nome do passeio</label><input id="customTrip" maxlength="70" placeholder="Digite o nome da trilha ou passeio"></div><div class="field"><div class="fieldHead"><label>Como foi sua experiência?</label><span id="count">0/360</span></div><textarea id="description" maxlength="360" rows="5" placeholder="Ex.: Foi um dia incrível, com paisagens lindas e uma turma muito animada..." required></textarea><div class="mod" id="modStatus">✓ Sua mensagem será verificada antes da publicação.</div></div><div class="captionBox"><div class="captionHead"><div><span>✨ LEGENDA AUTOMÁTICA</span><b>Pronta para compartilhar</b></div><button class="capBtn" type="button" id="generateCaption">Gerar legenda</button></div><textarea id="caption" maxlength="600" rows="4" placeholder="Clique em “Gerar legenda” para criar uma legenda com base na sua experiência."></textarea></div><input id="website" class="honeypot" tabindex="-1" autocomplete="off"><label class="consent"><input id="consent" type="checkbox" required><span>Confirmo que posso compartilhar esta foto e autorizo sua exibição na Galeria dos Trilheiros.</span></label><button class="publishBtn" id="publishBtn" type="submit"><span>PUBLICAR EXPERIÊNCIA</span><small>na Galeria dos Trilheiros</small></button><div class="msg" id="formMessage" hidden></div></form></div></section>
-<section class="gallery" id="galeria"><div class="shell"><div class="galleryHead"><div><span class="kicker">EXPERIÊNCIAS REAIS 💚</span><h2>Galeria dos Trilheiros</h2><p>Momentos compartilhados por quem viveu a experiência.</p></div><div class="stats"><div><b id="postCount">0</b><span>experiências</span></div><div><b id="tripCount">0</b><span>destinos</span></div></div></div><div class="toolbar"><div class="search">🔎 <input id="search" placeholder="Buscar por nome ou passeio"></div><select id="filterTrip"><option value="">Todos os passeios</option></select><button id="refreshBtn" class="refresh" type="button">↻ Atualizar</button></div><div class="grid" id="galleryGrid"></div><div class="empty" id="emptyState" hidden><div class="big">🌿</div><h3>A primeira história pode ser a sua.</h3><p>Compartilhe uma foto e conte como foi sua experiência com os Trilheiros.</p><a class="btn primary" href="#publicar">Publicar experiência</a></div></div></section></main>
-<footer><div class="footer shell"><div class="footerBrand"><img src="https://raw.githubusercontent.com/jonatasmarruda-prog/site/main/assets/logo-trilheiros.png" alt=""><div><b>Trilheiros de Rondonópolis</b><span>Natureza • aventura • histórias para contar</span></div></div><div class="footerText">Galeria oficial de experiências • @trilheiros.roomt</div></div></footer><div class="toast" id="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
-<script src="./app.js" defer></script>
-</body></html>
+  <header class="hero" id="top">
+    <nav class="nav shell">
+      <a class="brand" href="#top" aria-label="Galeria dos Trilheiros">
+        <img src="https://raw.githubusercontent.com/jonatasmarruda-prog/site/main/assets/logo-trilheiros.png" alt="Logo Trilheiros de Rondonópolis">
+        <div>
+          <strong>TRILHEIROS</strong>
+          <span>Rondonópolis • MT</span>
+        </div>
+      </a>
+      <a class="nav-action" href="#publicar">+ Adicionar foto</a>
+    </nav>
+
+    <div class="hero-content shell">
+      <div class="hero-copy">
+        <span class="eyebrow">GALERIA OFICIAL • PÓS-PASSEIO</span>
+        <h1>GALERIA DOS<br><em>TRILHEIROS</em></h1>
+        <p class="hero-lead">Compartilhe aqui sua experiência conosco.</p>
+        <p class="hero-sub">Escolha uma foto especial do passeio, escreva como foi viver essa aventura e publique no nosso álbum para todo mundo recordar junto. 💚</p>
+        <div class="hero-actions">
+          <a class="btn btn-gold" href="#publicar">📸 Compartilhar experiência</a>
+          <a class="btn btn-glass" href="#album">🖼️ Ver álbum</a>
+        </div>
+      </div>
+      <aside class="hero-album-card" aria-label="Prévia do álbum">
+        <div class="album-photo"></div>
+        <div class="album-note">
+          <span>MEMÓRIAS DA TRILHA</span>
+          <strong>Fotos que contam histórias.</strong>
+          <small>@trilheiros.roomt</small>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <main>
+    <section class="share-section" id="publicar">
+      <div class="shell share-layout">
+        <div class="share-intro">
+          <span class="section-kicker">COMPARTILHE SUA EXPERIÊNCIA</span>
+          <h2>Faça parte do nosso álbum de aventuras.</h2>
+          <p>Preencha as informações abaixo, carregue sua foto e publique. A imagem ficará anexada no álbum dos Trilheiros junto com seu nome, passeio e relato.</p>
+
+          <div class="steps">
+            <div class="step"><b>01</b><span><strong>Escolha sua foto</strong><small>Uma lembrança especial do passeio.</small></span></div>
+            <div class="step"><b>02</b><span><strong>Conte como foi</strong><small>Nome, passeio e sua experiência.</small></span></div>
+            <div class="step"><b>03</b><span><strong>Publique no álbum</strong><small>Todo mundo poderá ver e compartilhar.</small></span></div>
+          </div>
+
+          <div class="moderation-card">
+            <div class="moderation-icon">🛡️</div>
+            <div>
+              <strong>Galeria com moderação automática</strong>
+              <p>Mensagens com palavrões, ofensas ou conteúdo depreciativo não são publicadas. Assim mantemos o álbum leve, respeitoso e positivo.</p>
+            </div>
+          </div>
+        </div>
+
+        <form class="post-form" id="postForm" novalidate>
+          <div class="form-top">
+            <div>
+              <span>MINHA PUBLICAÇÃO</span>
+              <h3>Compartilhe aqui sua experiência conosco</h3>
+            </div>
+            <div class="filter-badge">✓ FILTRO ATIVO</div>
+          </div>
+
+          <div class="photo-field">
+            <label>Foto do passeio</label>
+            <div class="photo-frame" id="photoFrame">
+              <input id="photo" name="photo" type="file" accept="image/*,.heic,.heif" hidden required>
+              <button class="photo-picker" id="photoPicker" type="button">
+                <span class="camera">📷</span>
+                <strong>Carregar foto</strong>
+                <small>Toque para escolher uma imagem do celular</small>
+              </button>
+              <img id="photoPreview" alt="Prévia da foto escolhida" hidden>
+              <div class="photo-overlay" id="photoOverlay" hidden>
+                <button type="button" id="changePhoto">↻ Trocar</button>
+                <button type="button" id="removePhoto" class="danger">✕ Excluir foto</button>
+              </div>
+            </div>
+            <small class="photo-help">Aceita JPG, PNG, WEBP, HEIC e formatos comuns do celular.</small>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="name">Seu nome</label>
+              <input id="name" name="name" maxlength="50" autocomplete="name" placeholder="Ex.: Maria Fernanda" required>
+            </div>
+            <div class="field">
+              <label for="trip">Nome do passeio</label>
+              <select id="trip" name="trip" required>
+                <option value="">Selecione o passeio...</option>
+                <option>Morro da Mesa</option>
+                <option>Barra do Garças</option>
+                <option>Nobres – Bom Jardim</option>
+                <option>Salto das Nuvens</option>
+                <option>Rio Cristalino</option>
+                <option>Cânion das Índias</option>
+                <option>Águas da Mata</option>
+                <option>Salto Paraguassu</option>
+                <option>Lagoa Azul</option>
+                <option>Mirante da Janela</option>
+                <option>Vila Bela</option>
+                <option>Tesouro</option>
+                <option>Boia Cross</option>
+                <option value="Outro">Outro passeio</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field" id="customTripWrap" hidden>
+            <label for="customTrip">Digite o nome do passeio</label>
+            <input id="customTrip" maxlength="70" placeholder="Ex.: Cachoeira da Samambaia">
+          </div>
+
+          <div class="field">
+            <div class="field-label-row">
+              <label for="description">Como foi sua experiência?</label>
+              <span id="charCount">0/360</span>
+            </div>
+            <textarea id="description" name="description" maxlength="360" rows="5" placeholder="Conte um pouco do que mais gostou, como foi o passeio, a paisagem, a turma..." required></textarea>
+            <div class="moderation-status" id="moderationStatus">✓ Sua mensagem será verificada antes da publicação.</div>
+          </div>
+
+          <div class="caption-card">
+            <div class="caption-title">
+              <div><span>✨ LEGENDA PARA REDES</span><strong>Quer uma legenda pronta?</strong></div>
+              <button type="button" id="generateCaption">Gerar legenda</button>
+            </div>
+            <textarea id="caption" name="caption" maxlength="600" rows="4" placeholder="Opcional: gere uma legenda automática para compartilhar sua foto nas redes sociais."></textarea>
+          </div>
+
+          <input name="website" id="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <label class="consent">
+            <input id="consent" type="checkbox" required>
+            <span>Confirmo que posso compartilhar esta foto e autorizo sua exibição na Galeria dos Trilheiros.</span>
+          </label>
+
+          <button class="publish-button" id="publishBtn" type="submit">
+            <span>PUBLICAR NO ÁLBUM</span>
+            <small>Minha foto ficará disponível na Galeria dos Trilheiros</small>
+          </button>
+
+          <div class="form-message" id="formMessage" hidden></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="album-section" id="album">
+      <div class="shell">
+        <div class="album-header">
+          <div>
+            <span class="section-kicker dark">NOSSO ÁLBUM 💚</span>
+            <h2>Momentos que viram histórias.</h2>
+            <p>Fotos e experiências compartilhadas por quem viveu uma aventura com os Trilheiros.</p>
+          </div>
+          <div class="album-stats">
+            <div><strong id="postCount">0</strong><span>fotos</span></div>
+            <div><strong id="tripCount">0</strong><span>passeios</span></div>
+          </div>
+        </div>
+
+        <div class="album-toolbar">
+          <div class="search-box">🔎 <input id="search" placeholder="Buscar por nome ou passeio"></div>
+          <select id="filterTrip"><option value="">Todos os passeios</option></select>
+          <button id="refreshBtn" type="button">↻ Atualizar</button>
+        </div>
+
+        <div class="album-grid" id="galleryGrid"></div>
+
+        <div class="empty-state" id="emptyState" hidden>
+          <div class="empty-icon">📷</div>
+          <h3>O álbum está esperando a primeira história.</h3>
+          <p>Publique uma foto do passeio e ajude a construir a memória dos Trilheiros.</p>
+          <a class="btn btn-gold" href="#publicar">Adicionar minha foto</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-inner">
+      <div class="footer-brand">
+        <img src="https://raw.githubusercontent.com/jonatasmarruda-prog/site/main/assets/logo-trilheiros.png" alt="">
+        <div><strong>Trilheiros de Rondonópolis</strong><span>Natureza • aventura • histórias para contar</span></div>
+      </div>
+      <div class="footer-copy">Galeria oficial • @trilheiros.roomt</div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+  <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+  <script src="./app.js" defer></script>
+</body>
+</html>
