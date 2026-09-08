@@ -33,6 +33,7 @@
       const latest = posts[0];
       const img = $('#latestPhoto');
       const placeholder = $('#latestPlaceholder');
+
       if (!latest) {
         img.hidden = true;
         img.removeAttribute('src');
@@ -43,6 +44,7 @@
         $('#latestDate').textContent = 'Memórias que ficam';
         return;
       }
+
       placeholder.hidden = true;
       if (currentLatestId !== latest.id) {
         img.hidden = true;
@@ -53,6 +55,7 @@
       } else {
         img.hidden = false;
       }
+
       $('#latestTrip').textContent = latest.trip;
       $('#latestName').textContent = latest.name;
       $('#latestDescription').textContent = latest.description;
@@ -76,5 +79,9 @@
   $('#refreshBtn')?.addEventListener('click',()=>setTimeout(refreshLatest,250));
   window.addEventListener('pageshow',refreshLatest);
   document.addEventListener('visibilitychange',()=>{ if (!document.hidden) refreshLatest(); });
+
   refreshLatest();
+  setInterval(() => {
+    if (!document.hidden) refreshLatest();
+  }, 30000);
 })();
