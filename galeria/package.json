@@ -1,0 +1,1 @@
+{"name":"galeria-trilheiros","private":true,"version":"1.0.0","scripts":{"dev":"netlify dev"},"dependencies":{"@netlify/blobs":"latest","@netlify/functions":"latest"},"devDependencies":{"netlify-cli":"latest"}}
