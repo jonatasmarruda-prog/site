@@ -1,6 +1,17 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "cleanUrls": true,
+  "images": {
+    "sizes": [160, 256, 320, 480, 640, 828, 1080],
+    "remotePatterns": [
+      { "protocol": "https", "hostname": "i.postimg.cc", "pathname": "^/.*$" },
+      { "protocol": "https", "hostname": "galeria-trilheiros.netlify.app", "pathname": "^/api/photo$" }
+    ],
+    "minimumCacheTTL": 31536000,
+    "qualities": [70, 76, 78, 82, 88],
+    "formats": ["image/webp"]
+  },
   "rewrites": [
     { "source": "/api/posts", "destination": "https://galeria-trilheiros.netlify.app/api/posts" },
     { "source": "/api/photo", "destination": "https://galeria-trilheiros.netlify.app/api/photo" },
