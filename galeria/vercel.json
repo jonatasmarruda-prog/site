@@ -14,7 +14,21 @@
   },
   "rewrites": [
     { "source": "/api/posts", "destination": "https://galeria-trilheiros.netlify.app/api/posts" },
-    { "source": "/api/photo", "destination": "https://galeria-trilheiros.netlify.app/api/photo" },
-    { "source": "/api/admin-check", "destination": "https://galeria-trilheiros.netlify.app/api/admin-check" }
+    { "source": "/api/photo", "destination": "https://galeria-trilheiros.netlify.app/api/photo" }
+  ],
+  "headers": [
+    {
+      "source": "/api/photo",
+      "headers": [
+        { "key": "x-vercel-enable-rewrite-caching", "value": "1" },
+        { "key": "CDN-Cache-Control", "value": "max-age=31536000" }
+      ]
+    },
+    {
+      "source": "/api/posts",
+      "headers": [
+        { "key": "x-vercel-enable-rewrite-caching", "value": "0" }
+      ]
+    }
   ]
 }
