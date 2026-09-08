@@ -2,7 +2,11 @@
   const $ = (s, root=document) => root.querySelector(s);
   const $$ = (s, root=document) => [...root.querySelectorAll(s)];
   const state = { posts:[], blob:null, previewUrl:'', admin:false, adminKey:'' };
+  const PROFANITY=['porra','caralho','merda','bosta','puta','puto','fdp','foda','cacete','idiota','imbecil','otario','otário','babaca','arrombado'];
+  const NEGATIVE=['nao gostei','não gostei','nao recomendo','não recomendo','nunca mais','muito ruim','horrivel','horrível','pessimo','péssimo','decepcionante','desorganizado','lixo','ridiculo','ridículo','golpe','odiei','detestei'];
   const esc = (text='') => String(text).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const normalize = (text='') => String(text).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
+  const moderate = (text='') => {const n=normalize(text);if(PROFANITY.some(x=>n.includes(normalize(x))))return{ok:false,message:'A mensagem contém linguagem ofensiva.'};if(NEGATIVE.some(x=>n.includes(normalize(x))))return{ok:false,message:'Reescreva a experiência de forma respeitosa e positiva.'};return{ok:true};};
   const formatDate = (value) => { if(!value) return 'Publicado recentemente'; try{ const d=/^\d{4}-\d{2}-\d{2}$/.test(value)?new Date(value+'T12:00:00'):new Date(value); return new Intl.DateTimeFormat('pt-BR',{day:'2-digit',month:'long',year:'numeric'}).format(d);}catch{return 'Publicado recentemente'} };
   const showToast = (text) => { const el=$('#toast'); el.textContent=text; el.classList.add('show'); clearTimeout(showToast.t); showToast.t=setTimeout(()=>el.classList.remove('show'),2600); };
   const openModal = (el) => { el.classList.add('open'); el.setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); };
@@ -35,7 +39,10 @@
   $('#photoInput').addEventListener('change',e=>choosePhoto(e.target.files?.[0]));
   $('#changePhoto').addEventListener('click',()=>$('#photoInput').click());
   $('#removePhoto').addEventListener('click',()=>{resetPhoto();showToast('Foto removida.');});
-  $('#adventureDescription').addEventListener('input',e=>{$('#descriptionCount').textContent=`${e.target.value.length}/280`;});
+
+  function updateModeration(){const result=moderate($('#adventureTitle').value+' '+$('#adventureDescription').value);const line=$('#moderationLine');line.textContent=result.ok?'✓ Conteúdo adequado para publicação.':'⚠ '+result.message;line.style.color=result.ok?'#83bf90':'#ffaaa2';return result;}
+  $('#adventureTitle').addEventListener('input',updateModeration);
+  $('#adventureDescription').addEventListener('input',e=>{$('#descriptionCount').textContent=`${e.target.value.length}/280`;updateModeration();});
 
   function parseCaption(caption=''){const m=String(caption).match(/^([^|]*)\|hash:([a-f0-9]{64})$/i);return m?{date:m[1],hash:m[2]}:{date:'',hash:''};}
   function normalizePost(post){const meta=parseCaption(post.caption||'');return {id:post.id,title:post.title||post.trip||post.name||'Aventura dos Trilheiros',adventureDate:post.adventureDate||post.date||meta.date||'',description:post.description||'',photoKey:post.photoKey,photoHash:post.photoHash||meta.hash||'',createdAt:post.createdAt||''};}
@@ -44,7 +51,22 @@
   function renderGallery(){const grid=$('#galleryGrid');grid.innerHTML='';$('#photoCount').textContent=state.posts.length;$('#emptyState').hidden=state.posts.length>0;state.posts.forEach((p,index)=>{const card=document.createElement('article');card.className='gallery-card';card.innerHTML=`<div class="gallery-image"><img loading="lazy" src="/api/photo?id=${encodeURIComponent(p.photoKey)}&v=${encodeURIComponent(p.id)}" alt="${esc(p.title)}"></div>${state.admin?'<button class="delete-card" type="button" aria-label="Excluir publicação">🗑</button>':''}<div class="gallery-info"><span class="gallery-date">${index===0?'MAIS RECENTE • ':''}${esc(formatDate(p.adventureDate||p.createdAt))}</span><h3 class="gallery-title">${esc(p.title)}</h3>${p.description?`<p class="gallery-description">${esc(p.description)}</p>`:''}</div>`;if(state.admin)card.querySelector('.delete-card').addEventListener('click',()=>deletePost(p));grid.appendChild(card);});}
   async function loadPosts(){const grid=$('#galleryGrid');grid.innerHTML='<div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>';try{const res=await fetch('/api/posts',{headers:{Accept:'application/json'},cache:'no-store'});if(!res.ok)throw new Error();const data=await res.json();state.posts=dedupe((Array.isArray(data.posts)?data.posts:[]).map(normalizePost).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)));renderFeatured();renderGallery();}catch{grid.innerHTML='';$('#emptyState').hidden=false;showToast('Não foi possível atualizar o álbum agora.');}}
 
-  $('#uploadForm').addEventListener('submit',async e=>{e.preventDefault();const error=$('#formError');error.hidden=true;const title=$('#adventureTitle').value.trim(),date=$('#adventureDate').value,description=$('#adventureDescription').value.trim();if(!state.blob){error.textContent='Escolha uma foto antes de publicar.';error.hidden=false;return;}if(!title){error.textContent='Digite o título da aventura.';error.hidden=false;return;}const button=$('#publishButton');button.disabled=true;button.textContent='Publicando...';try{const hash=await sha256(state.blob);if(state.posts.some(p=>p.photoHash&&p.photoHash===hash))throw new Error('Esta foto já foi publicada na galeria.');const form=new FormData();form.append('name','Galeria');form.append('trip',title);form.append('description',description||'Experiência compartilhada na Galeria dos Trilheiros.');form.append('caption',`${date}|hash:${hash}`);form.append('website',$('#website').value);form.append('photo',state.blob,'foto.jpg');const res=await fetch('/api/posts',{method:'POST',body:form});const data=await res.json().catch(()=>({}));if(!res.ok)throw new Error(data.message||'Não foi possível publicar.');e.target.reset();$('#descriptionCount').textContent='0/280';resetPhoto();closeModal($('#uploadModal'));showToast('Publicado com sucesso! ✨');await loadPosts();}catch(err){error.textContent=err.message||'Não foi possível publicar.';error.hidden=false;}finally{button.disabled=false;button.textContent='Publicar';}});
+  $('#uploadForm').addEventListener('submit',async e=>{
+    e.preventDefault();const error=$('#formError');error.hidden=true;
+    const title=$('#adventureTitle').value.trim(),date=$('#adventureDate').value,description=$('#adventureDescription').value.trim();
+    if(!state.blob){error.textContent='Escolha uma foto antes de publicar.';error.hidden=false;return;}
+    if(!title){error.textContent='Digite o título da aventura.';error.hidden=false;return;}
+    const moderation=updateModeration();if(!moderation.ok){error.textContent=moderation.message;error.hidden=false;return;}
+    const button=$('#publishButton');button.disabled=true;button.textContent='Publicando...';
+    try{
+      const hash=await sha256(state.blob);
+      if(state.posts.some(p=>p.photoHash&&p.photoHash===hash))throw new Error('Esta foto já foi publicada na galeria.');
+      const form=new FormData();form.append('title',title);form.append('adventureDate',date);form.append('description',description);form.append('photoHash',hash);form.append('website',$('#website').value);form.append('photo',state.blob,'foto.jpg');
+      const res=await fetch('/api/posts',{method:'POST',body:form});const data=await res.json().catch(()=>({}));if(!res.ok)throw new Error(data.message||'Não foi possível publicar.');
+      e.target.reset();$('#descriptionCount').textContent='0/280';resetPhoto();closeModal($('#uploadModal'));showToast('Publicado com sucesso! ✨');await loadPosts();
+    }catch(err){error.textContent=err.message||'Não foi possível publicar.';error.hidden=false;}
+    finally{button.disabled=false;button.textContent='Publicar';}
+  });
 
   async function validateAdmin(key){const res=await fetch('/api/admin-check',{headers:{'x-admin-key':key},cache:'no-store'});const data=await res.json().catch(()=>({}));if(!res.ok||!data.ok)throw new Error(data.message||'Senha inválida.');}
   function setAdmin(active,key=''){state.admin=active;state.adminKey=key;$('#adminButton').classList.toggle('active',active);$('#adminButton .admin-lock').textContent=active?'🔓':'🔐';$('#adminButton .admin-label').textContent=active?'ADM ON':'ADM';if(active)sessionStorage.setItem('trilheiros-master-admin',key);else sessionStorage.removeItem('trilheiros-master-admin');renderGallery();}
