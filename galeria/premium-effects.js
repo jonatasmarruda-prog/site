@@ -30,7 +30,10 @@
   }
 
   const bind=(img)=>{
-    if(!img||img.dataset.pulseBound)return;img.dataset.pulseBound='1';
+    if(!img||img.dataset.pulseBound)return;
+    const src=(img.getAttribute('src')||'').trim();
+    if(!src||img.hidden)return;
+    img.dataset.pulseBound='1';
     const parent=img.parentElement;if(!parent)return;
     parent.classList.add('image-loading');parent.classList.remove('image-loaded');
     const done=()=>{parent.classList.remove('image-loading');parent.classList.add('image-loaded')};
@@ -40,4 +43,21 @@
   const scan=(root=document)=>root.querySelectorAll?.('img')?.forEach(bind);
   scan();
   new MutationObserver(records=>records.forEach(r=>r.addedNodes.forEach(n=>{if(n.nodeType!==1)return;if(n.matches?.('img'))bind(n);scan(n)}))).observe(document.documentElement,{childList:true,subtree:true});
+
+  // Compatibilidade com navegadores internos (Instagram/Facebook): o input real
+  // fica sobre a área de seleção, invisível, para que o toque do usuário abra
+  // diretamente a galeria/câmera sem depender de input.click() programático.
+  const input=document.getElementById('photoInput');
+  const preview=document.getElementById('uploadPreview');
+  const picker=document.getElementById('photoPicker');
+  if(input&&preview){
+    input.hidden=false;
+    input.setAttribute('aria-label','Escolher foto');
+    Object.assign(input.style,{
+      position:'absolute',inset:'0',width:'100%',height:'100%',opacity:'0',
+      zIndex:'6',cursor:'pointer',display:'block'
+    });
+    if(picker){picker.style.position='relative';picker.style.zIndex='2';}
+    preview.style.cursor='pointer';
+  }
 })();
