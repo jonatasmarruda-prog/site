@@ -214,6 +214,18 @@ export default async (request: Request, context: Context) => {
     const token = url.searchParams.get("hub.verify_token");
     const challenge = url.searchParams.get("hub.challenge");
 
+    if (url.searchParams.get("health") === "1") {
+      return new Response(
+        JSON.stringify({
+          ok: true,
+          verifyTokenConfigured: Boolean(env("META_VERIFY_TOKEN")),
+          accessTokenConfigured: Boolean(env("META_ACCESS_TOKEN")),
+          graphVersion: env("META_GRAPH_VERSION") || "v24.0",
+        }),
+        { status: 200, headers: { "Content-Type": "application/json; charset=utf-8" } },
+      );
+    }
+
     if (
       mode === "subscribe" &&
       env("META_VERIFY_TOKEN") &&
